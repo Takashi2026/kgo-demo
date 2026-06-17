@@ -2,6 +2,10 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<!-- Security hardening: lock the page to its own inline code only; block all external/injected scripts, network egress, framing, form posts, plugins. Static demo, no backend, no user input, no data collection. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KGo! × ここさん — 京都・逆張りの旅（デモ）</title>
 <style>
@@ -314,14 +318,14 @@
   <div class="stage">
     <h1><b>KGo!</b> × <b>ここさん</b> — 京都・逆張りの旅</h1>
     <p>提案資料「<b>バリューチェーンの流れを逆転せよ</b>」の<b>体感デモ</b>。<br>
-       RED・Ctripの定番ルートに<b>川上で割り込み</b>、人が集まるほど安くなる「拼団」で穴場へ自発的に分散させ、<b>データ主権を日本に取り戻す</b>日本発アプリ。</p>
+       RED・Ctripの定番ルートに<b>川上で割り込み</b>、人が集まるほど安くなる「拼団」で穴場へ自発的に分散させ、<b>京都の混雑を一気に解消する</b>日本発アプリ。</p>
     <span class="pill">📱 スマホ画面そのままのモック ／ 触って動きます</span>
     <div class="rail" id="rail">
       <span class="step on" data-tab="home" onclick="go('home')">①<b>発見</b> 穴場提案</span><span class="arr">→</span>
       <span class="step" data-tab="itin" onclick="go('itin')">②<b>旅程</b> 川上介入</span><span class="arr">→</span>
       <span class="step" data-tab="pin" onclick="go('pin')">③<b>拼団</b> 0円拡散</span><span class="arr">→</span>
       <span class="step" data-tab="map" onclick="go('map')">④<b>分散</b> 混雑解消</span><span class="arr">→</span>
-      <span class="step" data-tab="rev" onclick="go('rev')">⑤<b>逆転</b> データ主権</span>
+      <span class="step" data-tab="rev" onclick="go('rev')">⑤<b>逆転</b> 混雑を解消</span>
     </div>
   </div>
 
@@ -451,21 +455,21 @@
       <!-- ===== ⑤ REVERSAL / 逆転 ===== -->
       <div class="body view" id="v-rev">
         <div class="lede" data-i18n="rev_lede" data-i18n-html="1">
-          いま、京都での行動・決済・口コミデータは<b>すべて中国プラットフォームへ流出</b>している。KGo!×ここさんは、この<b>データバリューチェーンの向きを逆転</b>させる——これが「一発逆転」の核。
+          京都の混雑は、<b>全員が同じ定番ルートに流れ込む</b>ことで生まれる。KGo!×ここさんは、その<b>流れ自体を逆転</b>させ——一人ひとりを違う穴場へ導いて、<b>京都の混雑を一気に解消</b>する。これが「一発逆転」。
         </div>
 
-        <div class="vctitle bad"><span class="lampe">❌</span><span data-i18n="rev_before">現状：データは中国プラットフォームへ流出</span></div>
+        <div class="vctitle bad"><span class="lampe">❌</span><span data-i18n="rev_before">現状：全員が同じ定番に流れ込み、混雑が増幅する</span></div>
         <div class="chain bad" id="chainBefore"></div>
 
         <div class="flipzone">
-          <button class="flipbtn" id="flipBtn" onclick="flipChain()"><span data-i18n="flip">逆転させる</span><span class="ar">↓</span></button>
+          <button class="flipbtn" id="flipBtn" onclick="flipChain()"><span data-i18n="flip">流れを逆転させる</span><span class="ar">↓</span></button>
         </div>
 
-        <div class="vctitle good"><span class="lampe">✅</span><span data-i18n="rev_after">逆転後：日本発プラットフォームがデータを掌握</span></div>
+        <div class="vctitle good"><span class="lampe">✅</span><span data-i18n="rev_after">逆転後：流れが分散に変わり、混雑が一気に解ける</span></div>
         <div class="chain good reveal" id="chainAfter"></div>
 
         <div class="vcresult reveal" id="vcresult" data-i18n="rev_result" data-i18n-html="1">
-          日本側がデータを握ると：<b>①DP精度↑</b> → <b>②行動変容</b> → <b>③オーバーツーリズム解消</b> → <b>④さらにデータ蓄積</b>（正の循環）
+          流れを逆転させると：<b>①一人ひとりに最適化</b> → <b>②自然に分散</b> → <b>③京都の混雑が一気に解消</b> → <b>④体験が良くなりさらに分散</b>（正の循環）。
         </div>
 
         <div class="sechead">
@@ -475,8 +479,8 @@
         <div class="kpigrid" id="kpigrid"></div>
 
         <div class="data-sov">
-          <h3 data-i18n="ds_h">日本側に取り戻すデータ主権</h3>
-          <p data-i18n="ds_p">これまで中国プラットフォームに流れていた行動データを、日本発アプリが蓄積する。</p>
+          <h3 data-i18n="ds_h">混雑解消を加速するデータ循環</h3>
+          <p data-i18n="ds_p">貯まった行動データが、混雑予測と「分散の精度」を継続的に高める。使うほど混雑解消が進む。</p>
           <div class="drow"><div class="ic">🧭</div><div class="dn" data-i18n="ds1">行動データ<small data-i18n="ds1s">いつ・どこへ・誰と</small></div><div class="dv">＋蓄積</div></div>
           <div class="drow"><div class="ic">🎟️</div><div class="dn" data-i18n="ds2">拼団データ<small data-i18n="ds2s">グループ形成パターン</small></div><div class="dv">＋蓄積</div></div>
           <div class="drow"><div class="ic">🍵</div><div class="dn" data-i18n="ds3">体験データ<small data-i18n="ds3s">予約・評価・季節性</small></div><div class="dv">＋蓄積</div></div>
@@ -538,7 +542,7 @@ const I18N = {
     day_bad:"❌ REDの定番ルート", day_good:"✅ ここさんの旅程",
     pin_lede:"<b>拼団（ピントゥアン）</b>＝みんなで集まるほど安くなる共同購入。<b>20人で開催確定／50人で¥0</b>。「行きたいから人を集める」——旅行者自身が広告費ゼロの集客エンジンになる。",
     map_lede:"拼団割引＋穴場体験で、近隣の穴場が<b>「選ばれる場所」</b>に変わる。少ない地下鉄・バスへの集中が解け、混雑が市内全域へ自然に散る。",
-    rev_lede:"いま、京都での行動・決済・口コミデータは<b>すべて中国プラットフォームへ流出</b>している。KGo!×ここさんは、この<b>データバリューチェーンの向きを逆転</b>させる——これが「一発逆転」の核。",
+    rev_lede:"京都の混雑は、<b>全員が同じ定番ルートに流れ込む</b>ことで生まれる。KGo!×ここさんは、その<b>流れ自体を逆転</b>させ——一人ひとりを違う穴場へ導いて、<b>京都の混雑を一気に解消</b>する。これが「一発逆転」。",
     people_now:"人が参加中", nin:"人", kaisai:"開催",
     invite:"友達を誘って参加", auto:"自動",
     loop1:"あなたが3人誘えば、その3人がまた3人を誘う（1→3→9…）。",
@@ -547,11 +551,11 @@ const I18N = {
     legend_red:"過密スポット", legend_green:"穴場（分散先）",
     map_cap_b:"全員がRED・Ctripの定番3スポットへ。少ない地下鉄とバスに需要が集中し、混雑が固定される。",
     map_cap_a:"体験＋拼団割引で穴場が「選ばれる場所」に。蓄積した行動データで「来る前」に分散へ誘導し、需要が市内全域へ散る。",
-    rev_before:"現状：データは中国プラットフォームへ流出", rev_after:"逆転後：日本発プラットフォームがデータを掌握",
-    flip:"逆転させる",
-    rev_result:"日本側がデータを握ると：<b>①DP精度↑</b> → <b>②行動変容</b> → <b>③オーバーツーリズム解消</b> → <b>④さらにデータ蓄積</b>（正の循環）。RED・Ctripはこのデータを持たない——<b>差は開く一方</b>。",
+    rev_before:"現状：全員が同じ定番に流れ込み、混雑が増幅する", rev_after:"逆転後：流れが分散に変わり、混雑が一気に解ける",
+    flip:"流れを逆転させる",
+    rev_result:"流れを逆転させると：<b>①一人ひとりに最適化</b> → <b>②自然に分散</b> → <b>③京都の混雑が一気に解消</b> → <b>④体験が良くなりさらに分散</b>（正の循環）。",
     imp_h:"この旅が変えること",
-    ds_h:"日本側に取り戻すデータ主権", ds_p:"これまで中国プラットフォームに流れていた行動データを、日本発アプリが蓄積する。",
+    ds_h:"混雑解消を加速するデータ循環", ds_p:"貯まった行動データが、混雑予測と「分散の精度」を継続的に高める。使うほど混雑解消が進む。",
     ds1:"行動データ", ds1s:"いつ・どこへ・誰と", ds2:"拼団データ", ds2s:"グループ形成パターン",
     ds3:"体験データ", ds3s:"予約・評価・季節性", ds4:"UGCデータ", ds4s:"口コミ・拡散経路",
     fw_h:"正の循環（フライホイール）",
@@ -575,7 +579,7 @@ const I18N = {
     day_bad:"❌ RED打卡路线", day_good:"✅ Kokosan行程",
     pin_lede:"<b>拼团</b>＝人越多越便宜的团购。<b>满20人开团／满50人变¥0</b>。「因想去而拉人」——旅行者自己成为零广告费的获客引擎。",
     map_lede:"拼团折扣＋冷门体验，让附近冷门景点成为<b>「被选中的地方」</b>。稀少的地铁・公交不再被挤爆，拥挤自然散向全城。",
-    rev_lede:"如今，在京都的行为・支付・口碑数据<b>全部流向中国平台</b>。KGo!×Kokosan将这条<b>数据价值链的方向逆转</b>——这就是「一发逆转」的核心。",
+    rev_lede:"京都的拥挤，源于<b>所有人都涌入同样的打卡路线</b>。KGo!×Kokosan把<b>这股人流逆转</b>——把每个人引向不同的冷门景点，<b>一举化解京都的拥挤</b>。这就是「一发逆转」。",
     people_now:"人参与中", nin:"人", kaisai:"开团",
     invite:"邀请朋友拼团", auto:"自动",
     loop1:"你拉3人，那3人又各拉3人（1→3→9…）。",
@@ -584,11 +588,11 @@ const I18N = {
     legend_red:"过密景点", legend_green:"冷门（分流先）",
     map_cap_b:"所有人涌向RED・携程的三大打卡点。需求集中于稀少的地铁与公交，拥挤被固化。",
     map_cap_a:"体验＋拼团折扣让冷门景点成为「被选中的地方」。用积累的行为数据在「到达前」引导分流，需求散向全城。",
-    rev_before:"现状：数据流向中国平台", rev_after:"逆转后：日本本土平台掌握数据",
-    flip:"实现逆转",
-    rev_result:"日本一侧掌握数据后：<b>①定价精度↑</b> → <b>②行为改变</b> → <b>③过度旅游解决</b> → <b>④数据进一步积累</b>（正向循环）。RED・携程没有这些数据——<b>差距只会越拉越大</b>。",
+    rev_before:"现状：所有人涌入同样的打卡点，拥挤不断放大", rev_after:"逆转后：人流转为分散，拥挤一举缓解",
+    flip:"逆转人流",
+    rev_result:"逆转人流后：<b>①因人而异的最优行程</b> → <b>②自然分流</b> → <b>③京都的拥挤一举化解</b> → <b>④体验更好、进一步分流</b>（正向循环）。",
     imp_h:"这趟旅行带来的改变",
-    ds_h:"夺回日本一侧的数据主权", ds_p:"以往流向中国平台的行为数据，由日本本土App积累。",
+    ds_h:"加速化解拥挤的数据循环", ds_p:"积累的行为数据，持续提升拥挤预测与「分流精度」。越用，越能化解拥挤。",
     ds1:"行为数据", ds1s:"何时・去哪・与谁", ds2:"拼团数据", ds2s:"团体形成模式",
     ds3:"体验数据", ds3s:"预订・评价・季节性", ds4:"UGC数据", ds4s:"口碑・传播路径",
     fw_h:"正向循环（飞轮）",
@@ -661,7 +665,7 @@ const ITINS = {
       label:{ja:'REDの定番ルート',zh:'RED打卡路线'},
       banner:{logo:'RED',
         head:{ja:'推奨ルート：金閣寺 → 嵐山 → 清水寺',zh:'推荐行程：金阁寺 → 岚山 → 清水寺'},
-        note:{ja:'みんなが選ぶ「定番」。旅程の川上をREDが握り、全員が同じルートへ。',zh:'大家都选的「打卡路线」。RED掌控行程上游，所有人走同一条路。'}},
+        note:{ja:'みんなが同じ定番をコピー。全員が同じルート・同じ時間に集中し、混雑が生まれる。',zh:'大家复制同样的打卡路线，挤在相同地点和时段，于是拥挤。'}},
       mood:{ja:'😔 「京都は疲れた」',zh:'😔 「京都太累了」'},
       spend:{ja:'消費 17万円／体験 5%未満',zh:'消费 1.7万元／体验 不足5%'},
       steps:[
@@ -689,7 +693,7 @@ const ITINS = {
       label:{ja:'Ctripのパッケージツアー',zh:'携程标准套餐'},
       banner:{logo:'Ctrip',
         head:{ja:'おすすめ2日間：金閣寺・二条城・伏見稲荷',zh:'推荐2日游：金阁寺・二条城・伏见稻荷'},
-        note:{ja:'子供向け解説なしのパッケージ。旅程をCtripが設計し、全員が同じ2日間へ。',zh:'无儿童解说的套餐。行程由携程设计，所有人走同样2天。'}},
+        note:{ja:'子供向け解説なしの定番パッケージ。全員が同じ2日間に集中する。',zh:'无儿童解说的标准套餐。所有人挤在同样的2天行程里。'}},
       mood:{ja:'📉 消費は計画の60%で終了',zh:'📉 消费仅完成计划的60%'},
       spend:{ja:'「子供が楽しめる体験を探せばよかった」',zh:'「早该找更适合孩子的体验」'},
       steps:[
@@ -718,16 +722,16 @@ ITINS.solo = ITINS.couple; ITINS.friends = ITINS.couple;
 /* ===================== value chain (逆転) ===================== */
 const VC = {
   before:[
-    {stage:{ja:'旅行計画',zh:'旅行计划'}, who:{ja:'RED・Ctrip',zh:'RED・携程'}, to:{ja:'行動データ → 中国へ',zh:'行为数据 → 流向中国'}},
-    {stage:{ja:'予約・決済',zh:'预订・支付'}, who:{ja:'WeChat Pay',zh:'微信支付'}, to:{ja:'決済データ → 中国へ',zh:'支付数据 → 流向中国'}},
-    {stage:{ja:'現地消費',zh:'现地消费'}, who:{ja:'日本の店舗',zh:'日本店铺'}, to:{ja:'売上のみ・データなし',zh:'仅营业额・无数据'}},
-    {stage:{ja:'体験共有',zh:'体验分享'}, who:{ja:'RED投稿',zh:'RED投稿'}, to:{ja:'UGCデータ → 中国へ',zh:'UGC数据 → 流向中国'}},
+    {stage:{ja:'旅行計画',zh:'旅行计划'}, who:{ja:'RED・Ctripの定番',zh:'RED・携程的打卡路线'}, to:{ja:'全員が同じ場所へ → 混雑',zh:'所有人涌向同处 → 拥挤'}},
+    {stage:{ja:'予約・移動',zh:'预订・出行'}, who:{ja:'同じ時間帯に集中',zh:'集中在同一时段'}, to:{ja:'ピークに殺到 → 混雑',zh:'高峰扎堆 → 拥挤'}},
+    {stage:{ja:'現地での消費',zh:'现地消费'}, who:{ja:'定番スポットに行列',zh:'打卡点排长龙'}, to:{ja:'キャパ超え → 混雑',zh:'超出承载 → 拥挤'}},
+    {stage:{ja:'体験共有',zh:'体验分享'}, who:{ja:'定番の写真が拡散',zh:'打卡照不断扩散'}, to:{ja:'次もまた定番へ → 混雑',zh:'下一个还是打卡点 → 拥挤'}},
   ],
   after:[
-    {stage:{ja:'旅行計画',zh:'旅行计划'}, who:{ja:'統合PF — 体験で川上介入',zh:'综合平台 — 体验介入上游'}, to:{ja:'行動データ → 日本に蓄積',zh:'行为数据 → 积累于日本'}},
-    {stage:{ja:'予約・拼団',zh:'预订・拼团'}, who:{ja:'KGo! 拼団 — 50人で0円・拡散',zh:'KGo!拼团 — 50人0元・裂变'}, to:{ja:'拼団データ → 日本に蓄積',zh:'拼团数据 → 积累于日本'}},
-    {stage:{ja:'体験設計・実施',zh:'体验设计・执行'}, who:{ja:'ここさん — 穴場体験で自然分散',zh:'Kokosan — 冷门体验自然分流'}, to:{ja:'体験データ → 日本に蓄積',zh:'体验数据 → 积累于日本'}},
-    {stage:{ja:'体験共有 → 再循環',zh:'体验分享 → 再循环'}, who:{ja:'統合PF — UGCがREDへ拡散→次を誘導',zh:'综合平台 — UGC扩散至RED→引导下一批'}, to:{ja:'UGCデータ → 日本に蓄積',zh:'UGC数据 → 积累于日本'}},
+    {stage:{ja:'旅行計画',zh:'旅行计划'}, who:{ja:'ここさんが一人ひとりに穴場提案',zh:'Kokosan为每人推荐冷门'}, to:{ja:'行き先がばらける → 分散',zh:'目的地分散 → 分流'}},
+    {stage:{ja:'予約・拼団',zh:'预订・拼团'}, who:{ja:'KGo! 拼団で穴場に集まる',zh:'KGo!拼团聚向冷门'}, to:{ja:'時間も場所も分散',zh:'时间与地点都分散'}},
+    {stage:{ja:'体験設計・実施',zh:'体验设计・执行'}, who:{ja:'ここさんが穴場体験を実施',zh:'Kokosan实施冷门体验'}, to:{ja:'市内全域へ自然分散',zh:'自然散向全城'}},
+    {stage:{ja:'体験共有 → 再循環',zh:'体验分享 → 再循环'}, who:{ja:'穴場の魅力が口コミ拡散',zh:'冷门的魅力口碑扩散'}, to:{ja:'次の人も別の穴場へ → 分散',zh:'下一个也去别的冷门 → 分流'}},
   ],
 };
 
@@ -905,8 +909,8 @@ function renderItin(){
         ? 'ここさんが<b>旅程設計の川上</b>に割り込み、REDの定番ルートを置き換える。混雑の原因そのものが消える。'
         : 'Kokosan切入<b>行程规划的上游</b>，替换RED的固定路线。拥挤的成因被直接消除。')
     : (lang==='ja'
-        ? 'REDが旅程の川上を握る限り、規制も値上げも<b>「来た後」</b>の対処。混雑は固定されたまま。'
-        : '只要RED掌控行程上游，管控与提价都只是<b>「来了之后」</b>的应对。拥挤依旧被锁死。');
+        ? 'みんなが同じ定番ルートをなぞる限り、規制も値上げも<b>「来た後」</b>の対処。混雑は固定されたまま。'
+        : '只要大家都照着同样的打卡路线走，管控与提价都只是<b>「来了之后」</b>的应对。拥挤依旧被锁死。');
 }
 
 /* ===================== map (分散) ===================== */
