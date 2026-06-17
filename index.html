@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>KGo! × ここさん — 京都・逆張りの旅（デモ）</title>
+<style>
+  :root{
+    --kyoto:#5b2a86;        /* 京紫 */
+    --kyoto-d:#3d1c5c;
+    --gold:#c8a24a;
+    --ink:#1d1a26;
+    --sub:#7a7488;
+    --line:#ece8f2;
+    --bg:#f4f1f8;
+    --green:#1e9e6a;
+    --red:#e0533d;
+    --amber:#e9a23b;
+    --card:#ffffff;
+    --shadow:0 10px 30px rgba(40,20,70,.10);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Segoe UI",sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%, #efe7fb 0%, #e7e9f3 45%, #dfe6ee 100%);
+    color:var(--ink);min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;
+    padding:26px 12px 40px;
+  }
+  /* ---- stage caption (outside the phone) ---- */
+  .stage{max-width:920px;width:100%;text-align:center;margin-bottom:18px}
+  .stage h1{font-size:21px;margin:0 0 6px;letter-spacing:.3px}
+  .stage h1 b{color:var(--kyoto)}
+  .stage p{margin:0;color:#534d63;font-size:13px;line-height:1.6}
+  .stage .pill{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:5px 12px;font-size:11.5px;color:var(--sub);margin-top:10px}
+  /* story rail */
+  .rail{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;max-width:780px;margin:14px auto 0}
+  .rail .step{font-size:11px;color:var(--sub);background:#fff;border:1.5px solid var(--line);border-radius:999px;
+    padding:5px 11px;cursor:pointer;transition:.15s;font-weight:700;white-space:nowrap;box-shadow:0 2px 4px rgba(91,42,134,.06)}
+  .rail .step b{color:var(--kyoto)}
+  .rail .step.on{background:var(--kyoto);color:#fff;border-color:var(--kyoto)}
+  .rail .step.on b{color:#ffe39a}
+  .rail .arr{color:#c7c0d6;align-self:center;font-size:11px}
+
+  /* ---------- phone frame ---------- */
+  .phone{
+    width:390px;max-width:96vw;height:812px;max-height:86vh;
+    background:#000;border-radius:46px;padding:11px;
+    box-shadow:0 30px 70px rgba(40,20,70,.32), 0 4px 12px rgba(0,0,0,.4);
+    position:relative;
+  }
+  .screen{
+    width:100%;height:100%;background:var(--bg);border-radius:36px;overflow:hidden;
+    position:relative;display:flex;flex-direction:column;
+  }
+  /* status bar */
+  .statusbar{height:34px;display:flex;align-items:center;justify-content:space-between;
+    padding:0 22px;font-size:12.5px;font-weight:600;color:#fff;flex:0 0 auto;
+    background:linear-gradient(120deg,var(--kyoto-d),var(--kyoto));}
+  .statusbar .dots{display:flex;gap:4px;align-items:center;font-size:11px}
+  .notch{position:absolute;top:11px;left:50%;transform:translateX(-50%);
+    width:120px;height:26px;background:#000;border-radius:0 0 16px 16px;z-index:30}
+
+  /* app header */
+  .apphead{flex:0 0 auto;background:linear-gradient(120deg,var(--kyoto),#7a3fb0);
+    color:#fff;padding:10px 16px 14px;}
+  .apphead .row1{display:flex;align-items:center;justify-content:space-between}
+  .brand{font-weight:800;font-size:18px;letter-spacing:.5px;display:flex;align-items:center;gap:7px}
+  .brand .ko{font-weight:500;opacity:.86;font-size:12.5px;border-left:1px solid rgba(255,255,255,.4);padding-left:7px}
+  .lang{display:flex;background:rgba(255,255,255,.16);border-radius:999px;padding:2px;font-size:11px}
+  .lang button{border:0;background:transparent;color:#fff;padding:3px 9px;border-radius:999px;cursor:pointer;font-weight:600}
+  .lang button.on{background:#fff;color:var(--kyoto)}
+  .persona{display:flex;align-items:center;gap:8px;margin-top:11px;background:rgba(255,255,255,.14);
+    border-radius:14px;padding:8px 11px;cursor:pointer}
+  .persona .av{font-size:18px}
+  .persona .meta{flex:1;line-height:1.25}
+  .persona .meta b{font-size:13px}
+  .persona .meta span{display:block;font-size:10.5px;opacity:.82}
+  .persona .edit{font-size:10.5px;opacity:.85}
+
+  /* scroll body */
+  .body{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 92px;scroll-behavior:smooth}
+  .body::-webkit-scrollbar{width:0}
+
+  /* generic */
+  .sechead{display:flex;align-items:baseline;justify-content:space-between;margin:6px 0 8px}
+  .sechead h2{font-size:15px;margin:0}
+  .sechead small{color:var(--sub);font-size:11px}
+  .lede{font-size:11.5px;color:#534d63;line-height:1.6;background:#fff;border:1px solid var(--line);
+    border-radius:14px;padding:10px 12px;margin-bottom:14px}
+  .lede b{color:var(--kyoto)}
+
+  /* crowd banner */
+  .crowd{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);
+    border-radius:16px;padding:11px 13px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .crowd .gauge{width:44px;height:44px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;
+    font-size:12px;font-weight:800;color:#fff;background:conic-gradient(var(--red) 0 92%, #f0e9e7 92% 100%);}
+  .crowd .gauge i{width:34px;height:34px;background:#fff;border-radius:50%;display:grid;place-items:center;color:var(--red);font-style:normal}
+  .crowd .txt{flex:1;line-height:1.4}
+  .crowd .txt b{font-size:12.5px}
+  .crowd .txt span{display:block;font-size:11px;color:var(--sub)}
+  .crowd .arrow{color:var(--green);font-weight:800;font-size:12px;text-align:right;line-height:1.3}
+
+  /* experience cards */
+  .card{background:var(--card);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}
+  .card .pic{height:104px;position:relative;display:flex;align-items:flex-end;padding:9px;color:#fff}
+  .card .pic .emoji{position:absolute;top:8px;right:12px;font-size:30px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+  .badge{background:rgba(255,255,255,.92);color:var(--green);font-size:10px;font-weight:800;
+    padding:3px 8px;border-radius:999px;display:inline-flex;gap:4px;align-items:center}
+  .badge.crowdlow{color:var(--green)}
+  .card .info{padding:11px 13px 13px}
+  .card .info .t{font-size:14.5px;font-weight:800;line-height:1.3}
+  .card .info .area{font-size:11px;color:var(--sub);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap}
+  .card .price{display:flex;align-items:flex-end;justify-content:space-between;margin-top:10px}
+  .card .price .now{font-size:12px;color:var(--sub)}
+  .card .price .now b{color:var(--kyoto);font-size:19px}
+  .card .price .strike{text-decoration:line-through;opacity:.55;font-size:11px}
+  .card .price .zero{color:var(--gold);font-weight:900}
+  .joinbtn{border:0;background:linear-gradient(120deg,var(--kyoto),#8a4fc0);color:#fff;font-weight:800;
+    border-radius:12px;padding:9px 14px;font-size:12.5px;cursor:pointer;box-shadow:0 6px 14px rgba(91,42,134,.32)}
+  .pint{margin-top:11px;background:#faf7ff;border:1px dashed #d9c9ef;border-radius:12px;padding:9px 11px}
+  .pint .pl{display:flex;justify-content:space-between;font-size:11px;color:#6a4a93;font-weight:700}
+  .bar{height:7px;background:#ece1fb;border-radius:6px;margin:7px 0 4px;overflow:hidden}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--kyoto),var(--gold));border-radius:6px;transition:width .5s cubic-bezier(.2,.7,.3,1)}
+
+  /* ===== shared toggle switch ===== */
+  .switch{display:flex;background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px;margin-bottom:14px}
+  .switch button{flex:1;border:0;background:transparent;padding:9px;border-radius:999px;font-weight:800;
+    font-size:13px;color:var(--sub);cursor:pointer;line-height:1.2;transition:.2s}
+  .switch button.on{background:var(--kyoto);color:#fff;font-weight:900}
+  .switch.bad button.on{background:var(--red)}
+
+  /* ===== itinerary (旅程) screen ===== */
+  .daysum{display:flex;gap:8px;margin-bottom:14px}
+  .daysum .ds{flex:1;border-radius:14px;padding:10px 11px;color:#fff;line-height:1.3}
+  .daysum .ds.bad{background:linear-gradient(135deg,#b5402f,#e0533d)}
+  .daysum .ds.good{background:linear-gradient(135deg,#177a52,#1e9e6a)}
+  .daysum .ds .mood{font-size:13px;font-weight:800}
+  .daysum .ds .sp{font-size:10.5px;opacity:.9;margin-top:3px;display:block}
+  .tl{position:relative;padding-left:6px}
+  .tlrow{display:flex;gap:11px;position:relative;padding-bottom:14px}
+  .tlrow:before{content:"";position:absolute;left:43px;top:6px;bottom:-4px;width:2px;background:var(--line)}
+  .tlrow:last-child:before{display:none}
+  .tlrow .time{flex:0 0 38px;font-size:11px;font-weight:800;color:var(--sub);text-align:right;padding-top:3px}
+  .tlrow .dot{flex:0 0 12px;width:12px;height:12px;border-radius:50%;margin-top:5px;z-index:1;border:2px solid #fff;box-shadow:0 0 0 1px var(--line)}
+  .tlrow.bad .dot{background:var(--red)}
+  .tlrow.good .dot{background:var(--green)}
+  .tlrow .tc{flex:1;background:#fff;border:1px solid var(--line);border-radius:13px;padding:9px 11px;box-shadow:0 4px 12px rgba(40,20,70,.05)}
+  .tlrow .tc .h{font-size:12.5px;font-weight:800;line-height:1.35;display:flex;gap:6px;align-items:flex-start}
+  .tlrow .tc .h .em{font-size:15px;flex:0 0 auto}
+  .tlrow .tc .d{font-size:11px;color:var(--sub);margin-top:3px;line-height:1.45}
+  .tag{display:inline-block;font-size:11px;font-weight:800;border-radius:999px;padding:4px 10px;margin-top:7px;letter-spacing:.3px}
+  .tag.bad{background:#fcebe7;color:var(--red)}
+  .tag.good{background:#e6f5ee;color:var(--green)}
+  .itincap{font-size:11.5px;color:#534d63;text-align:center;margin-top:8px;line-height:1.6;padding:0 4px}
+  .itincap b{color:var(--kyoto)}
+  .pnote{font-size:10.5px;color:var(--sub);background:#faf7ff;border:1px dashed #d9c9ef;border-radius:10px;
+    padding:7px 10px;margin-bottom:12px;line-height:1.5}
+  /* RED hijack banner (旅程 bad mode) */
+  .rednote{display:flex;gap:10px;align-items:center;background:#fff4f1;border:1px solid #f3c9bf;
+    border-radius:13px;padding:10px 12px;margin-bottom:12px;line-height:1.4}
+  .rednote .rl{flex:0 0 auto;background:#ff2d55;color:#fff;font-weight:900;font-size:12px;
+    border-radius:7px;padding:5px 9px;letter-spacing:.5px}
+  .rednote b{font-size:12px}
+  .rednote span{display:block;font-size:10.5px;color:var(--sub);margin-top:2px}
+
+  /* ===== 拼团 detail screen ===== */
+  .pintuan-hero{background:linear-gradient(140deg,#2c1450,#5b2a86 60%,#8a4fc0);color:#fff;
+    border-radius:20px;padding:16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .pintuan-hero .ti{font-size:16px;font-weight:800}
+  .pintuan-hero .su{font-size:11.5px;opacity:.85;margin-top:3px}
+  .bigprice{display:flex;align-items:baseline;gap:8px;margin:12px 0 2px}
+  .bigprice .yen{font-size:15px;opacity:.8}
+  .bigprice .num{font-size:44px;font-weight:900;line-height:1;letter-spacing:-1px}
+  .bigprice.free .num{color:#ffe39a}
+  .bigprice .was{font-size:12px;opacity:.7;text-decoration:line-through}
+  .countline{font-size:12px;opacity:.92;margin-top:4px}
+  .countline b{font-size:15px}
+  .bigbar{height:12px;background:rgba(255,255,255,.22);border-radius:8px;margin:12px 0 6px;overflow:hidden;position:relative}
+  .bigbar i{display:block;height:100%;background:linear-gradient(90deg,#ffd86b,#fff0c2);border-radius:8px;transition:width .6s cubic-bezier(.2,.7,.3,1)}
+  .ticks{display:flex;justify-content:space-between;font-size:9.5px;opacity:.85}
+  .ticks span.hit{color:#ffe39a;font-weight:800}
+  .avatars{display:flex;flex-wrap:wrap;gap:4px;margin:13px 0 4px;min-height:26px}
+  .avatars .a{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:13px;
+    background:rgba(255,255,255,.18);animation:pop .3s ease}
+  .avatars .more{font-size:11px;opacity:.85;align-self:center;margin-left:4px}
+  @keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+  .ladder{background:#fff;border:1px solid var(--line);border-radius:16px;padding:6px 4px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .ladder .lr{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-bottom:1px solid var(--line)}
+  .ladder .lr:last-child{border-bottom:0}
+  .ladder .lr.act{background:#faf7ff;border-radius:10px}
+  .ladder .lr .lt{font-size:12.5px;font-weight:700}
+  .ladder .lr .lt small{display:block;font-weight:500;color:var(--sub);font-size:10.5px}
+  .ladder .lr .lp{font-size:15px;font-weight:900;color:var(--kyoto)}
+  .ladder .lr .lp.z{color:var(--gold)}
+  .ladder .lr .chk{color:var(--green);font-weight:900;margin-left:6px}
+  .invite{display:flex;gap:8px}
+  .invite button{flex:1;border:0;border-radius:14px;padding:13px;font-weight:800;font-size:13px;cursor:pointer}
+  .invite .primary{background:linear-gradient(120deg,var(--kyoto),#8a4fc0);color:#fff;box-shadow:0 8px 18px rgba(91,42,134,.3)}
+  .invite .ghost{flex:0 0 auto;background:#fff;border:1px solid var(--line);color:var(--kyoto)}
+  .loopnote{font-size:11px;color:var(--sub);text-align:center;margin-top:12px;line-height:1.55;padding:0 6px}
+  .loopnote b{color:var(--kyoto)}
+  .toast{position:absolute;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-size:12px;font-weight:700;
+    opacity:0;transition:.35s;pointer-events:none;white-space:nowrap;z-index:40}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* ===== map screen ===== */
+  .map{position:relative;height:330px;background:linear-gradient(160deg,#eef3ec,#e6eef0);
+    border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+  .map .riv{position:absolute;top:0;bottom:0;left:64%;width:14px;background:#bcd6e6;opacity:.6;transform:rotate(6deg)}
+  .spot{position:absolute;transform:translate(-50%,-50%);text-align:center;transition:.7s cubic-bezier(.2,.7,.3,1)}
+  .spot .pin{width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);margin:0 auto;
+    display:grid;place-items:center;box-shadow:0 4px 8px rgba(0,0,0,.2)}
+  .spot .pin b{transform:rotate(45deg);font-size:13px}
+  .spot.red .pin{background:var(--red)}
+  .spot.green .pin{background:var(--green)}
+  .spot .lab{font-size:10px;font-weight:800;margin-top:3px;background:#fff;border-radius:6px;padding:1px 5px;display:inline-block;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .spot .cnt{font-size:9px;color:var(--sub)}
+  .crowdpeople{position:absolute;font-size:11px;transition:.7s cubic-bezier(.2,.7,.3,1)}
+  .maplegend{display:flex;gap:14px;justify-content:center;margin-top:12px;font-size:11px;color:var(--sub)}
+  .maplegend i{font-style:normal;font-weight:800}
+  .mapcap{font-size:11.5px;color:#534d63;text-align:center;margin-top:10px;line-height:1.6;padding:0 4px}
+  .mapcap b{color:var(--kyoto)}
+
+  /* ===== reversal (逆転) screen ===== */
+  .vctitle{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;margin:2px 0 8px}
+  .vctitle .lampe{font-size:14px}
+  .vctitle.bad{color:var(--red)}
+  .vctitle.good{color:var(--green)}
+  .chain{position:relative}
+  .vcstage{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);
+    border-radius:13px;padding:9px 11px;margin-bottom:8px;box-shadow:0 4px 12px rgba(40,20,70,.05);position:relative}
+  .chain.bad .vcstage{border-left:3px solid var(--red)}
+  .chain.good .vcstage{border-left:3px solid var(--green)}
+  .vcstage .vn{flex:0 0 24px;font-size:11px;font-weight:900;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .chain.bad .vcstage .vn{background:#fcebe7;color:var(--red)}
+  .chain.good .vcstage .vn{background:#e6f5ee;color:var(--green)}
+  .vcstage .vmeta{flex:1;line-height:1.3}
+  .vcstage .vmeta b{font-size:12px}
+  .vcstage .vmeta span{display:block;font-size:10px;color:var(--sub);margin-top:1px}
+  .vcstage .vto{flex:0 0 auto;font-size:10px;font-weight:800;border-radius:999px;padding:4px 9px;text-align:center;line-height:1.25}
+  .chain.bad .vto{background:#fcebe7;color:var(--red)}
+  .chain.good .vto{background:#fbf2da;color:#9a7b1f}
+  .chain.good .vto.acc{background:linear-gradient(120deg,var(--gold),#e6c878);color:#3d2c00}
+  .vcconn{text-align:center;color:#cfc7dd;font-size:12px;margin:-4px 0 4px;line-height:1}
+  .flipzone{text-align:center;margin:6px 0 14px}
+  .flipbtn{border:0;background:linear-gradient(120deg,var(--kyoto),#8a4fc0);color:#fff;font-weight:800;
+    border-radius:999px;padding:11px 22px;font-size:13px;cursor:pointer;box-shadow:0 8px 18px rgba(91,42,134,.3);transition:.3s;position:relative}
+  .flipbtn .ar{display:inline-block;margin-left:6px;transition:transform .35s cubic-bezier(.2,.7,.3,1)}
+  .flipbtn:hover .ar{transform:scaleY(1.15)}
+  .vcresult{background:linear-gradient(140deg,#2c1450,#5b2a86);color:#fff;border-radius:16px;
+    padding:13px 14px;margin:14px 0;font-size:11.5px;line-height:1.7;text-align:center}
+  .vcresult b{color:#ffe39a}
+  .reveal{opacity:0;transform:translateY(10px);transition:.5s}
+  .reveal.show{opacity:1;transform:none}
+
+  /* ===== impact (KPIs / sovereignty / flywheel) ===== */
+  .kpigrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+  .kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px;box-shadow:var(--shadow)}
+  .kpi .k{font-size:11px;color:var(--sub);font-weight:700}
+  .kpi .v{font-size:22px;font-weight:900;margin-top:4px;display:flex;align-items:baseline;gap:5px}
+  .kpi .v small{font-size:12px;color:var(--sub);font-weight:700}
+  .kpi .v.up{color:var(--green)}.kpi .v.down{color:var(--kyoto)}.kpi .v.flat{color:var(--gold)}
+  .data-sov{background:linear-gradient(140deg,#2c1450,#5b2a86);color:#fff;border-radius:18px;padding:12px;margin-bottom:14px}
+  .data-sov h3{margin:0 0 3px;font-size:14px}
+  .data-sov p{margin:0 0 12px;font-size:11px;opacity:.82;line-height:1.5}
+  .data-sov .drow{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14)}
+  .data-sov .drow .ic{font-size:17px;width:24px;text-align:center}
+  .data-sov .drow .dn{flex:1;font-size:12px;font-weight:700}
+  .data-sov .drow .dn small{display:block;font-weight:500;opacity:.75;font-size:10px}
+  .data-sov .drow .dv{font-size:14px;font-weight:900;color:#ffe39a}
+  .flywheel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow);text-align:center}
+  .flywheel h3{margin:0 0 10px;font-size:13px}
+  .flywheel .ring{font-size:11.5px;color:#4a4458;line-height:1.9}
+  .flywheel .ring b{color:var(--kyoto)}
+
+  /* bottom nav */
+  .nav{position:absolute;left:0;right:0;bottom:0;height:64px;background:rgba(255,255,255,.94);
+    backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;border-radius:0 0 36px 36px}
+  .nav button{flex:1;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:3px;color:var(--sub);font-size:11px;font-weight:700;padding-bottom:4px;transition:.2s}
+  .nav button .ni{font-size:18px}
+  .nav button.on{color:var(--kyoto);border-bottom:3px solid var(--kyoto);margin-bottom:-3px}
+
+  .view{display:none}
+  .view.on{display:block}
+
+  /* persona sheet */
+  .sheet-bg{position:absolute;inset:0;background:rgba(20,10,40,.45);opacity:0;pointer-events:none;transition:.3s;z-index:50;border-radius:36px}
+  .sheet-bg.show{opacity:1;pointer-events:auto}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 36px 36px;
+    padding:18px 18px 26px;transform:translateY(100%);transition:.32s cubic-bezier(.2,.7,.3,1);z-index:51}
+  .sheet.show{transform:translateY(0)}
+  .sheet h3{margin:2px 0 4px;font-size:15px}
+  .sheet p{margin:0 0 14px;font-size:11.5px;color:var(--sub)}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .opt{border:1.5px solid var(--line);border-radius:14px;padding:12px;text-align:center;cursor:pointer;transition:.15s}
+  .opt.on{border-color:var(--kyoto);background:#faf7ff}
+  .opt .oe{font-size:24px}
+  .opt .ol{font-size:12px;font-weight:800;margin-top:4px}
+  .opt .od{font-size:10px;color:var(--sub)}
+  .sheet .done{width:100%;margin-top:16px;border:0;background:var(--kyoto);color:#fff;font-weight:800;
+    font-size:14px;padding:13px;border-radius:14px;cursor:pointer}
+
+  .footnote{max-width:920px;font-size:11px;color:#6f6980;text-align:center;margin-top:22px;line-height:1.7}
+  .footnote b{color:var(--kyoto)}
+</style>
+</head>
+<body>
+
+  <div class="stage">
+    <h1><b>KGo!</b> × <b>ここさん</b> — 京都・逆張りの旅</h1>
+    <p>提案資料「<b>バリューチェーンの流れを逆転せよ</b>」の<b>体感デモ</b>。<br>
+       RED・Ctripの定番ルートに<b>川上で割り込み</b>、人が集まるほど安くなる「拼団」で穴場へ自発的に分散させ、<b>データ主権を日本に取り戻す</b>日本発アプリ。</p>
+    <span class="pill">📱 スマホ画面そのままのモック ／ 触って動きます</span>
+    <div class="rail" id="rail">
+      <span class="step on" data-tab="home" onclick="go('home')">①<b>発見</b> 穴場提案</span><span class="arr">→</span>
+      <span class="step" data-tab="itin" onclick="go('itin')">②<b>旅程</b> 川上介入</span><span class="arr">→</span>
+      <span class="step" data-tab="pin" onclick="go('pin')">③<b>拼団</b> 0円拡散</span><span class="arr">→</span>
+      <span class="step" data-tab="map" onclick="go('map')">④<b>分散</b> 混雑解消</span><span class="arr">→</span>
+      <span class="step" data-tab="rev" onclick="go('rev')">⑤<b>逆転</b> データ主権</span>
+    </div>
+  </div>
+
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="statusbar">
+        <span id="clock">9:41</span>
+        <span class="dots">●●● 5G ▮▮▮ 100%</span>
+      </div>
+
+      <!-- app header -->
+      <div class="apphead">
+        <div class="row1">
+          <div class="brand">KGo!<span class="ko" data-i18n="kokosan">ここさん体験</span></div>
+          <div class="lang">
+            <button id="jp" class="on" onclick="setLang('ja')">日本語</button>
+            <button id="zh" onclick="setLang('zh')">中文</button>
+          </div>
+        </div>
+        <div class="persona" onclick="openSheet()">
+          <div class="av" id="pAv">👫</div>
+          <div class="meta">
+            <b id="pName" data-i18n="persona_couple">カップル旅</b>
+            <span id="pSub" data-i18n="persona_sub">予算 15万円 ・ 朝型 ・ はじめての京都</span>
+          </div>
+          <div class="edit">✎ <span data-i18n="edit">変更</span></div>
+        </div>
+      </div>
+
+      <!-- ===== ① HOME / 発見 ===== -->
+      <div class="body view on" id="v-home">
+        <div class="crowd">
+          <div class="gauge"><i>92%</i></div>
+          <div class="txt">
+            <b data-i18n="crowd_t">いまの金閣寺：激混み</b>
+            <span data-i18n="crowd_s">市バス205系統も満員 ・ 60分待ち</span>
+          </div>
+          <div class="arrow">→<br><span data-i18n="crowd_a">穴場へ</span></div>
+        </div>
+
+        <div class="lede" data-i18n="home_lede" data-i18n-html="1">
+          RED・Ctripなら全員が同じ定番3スポットへ。<b>ここさん</b>は、あなたの条件に合わせて「混雑ゼロの穴場体験」だけを提案します。
+        </div>
+
+        <div class="sechead">
+          <h2 data-i18n="home_h">あなただけの京都</h2>
+          <small data-i18n="home_s">定番じゃない・混雑ゼロ</small>
+        </div>
+        <div id="feed"></div>
+      </div>
+
+      <!-- ===== ② ITINERARY / 旅程 ===== -->
+      <div class="body view" id="v-itin">
+        <div class="lede" data-i18n="itin_lede" data-i18n-html="1">
+          オーバーツーリズムの川上は<b>「旅程設計」</b>。REDの定番ルートが混雑を固定する。<b>ここさん</b>がその一日を丸ごと設計し直す——同じ予算・同じ二人でも、体験はここまで変わる。
+        </div>
+        <div class="switch bad" id="dayswitch">
+          <button id="d-bad" class="on" onclick="setDay('bad')" data-i18n="day_bad">❌ REDの定番ルート</button>
+          <button id="d-good" onclick="setDay('good')" data-i18n="day_good">✅ ここさんの旅程</button>
+        </div>
+        <div class="pnote" id="pnote" style="display:none"></div>
+        <div class="rednote" id="redbanner" style="display:none"></div>
+        <div class="daysum" id="daysum"></div>
+        <div class="tl" id="timeline"></div>
+        <div class="itincap" id="itincap"></div>
+      </div>
+
+      <!-- ===== ③ 拼团 / PINTUAN ===== -->
+      <div class="body view" id="v-pin">
+        <div class="lede" data-i18n="pin_lede" data-i18n-html="1">
+          <b>拼団（ピントゥアン）</b>＝みんなで集まるほど安くなる共同購入。<b>20人で開催確定／50人で¥0</b>。「行きたいから人を集める」——旅行者自身が広告費ゼロの集客エンジンになる。
+        </div>
+        <div class="pintuan-hero">
+          <div class="ti" id="phTitle">大覚寺 早朝の貸切＋竹林撮影</div>
+          <div class="su" id="phSub">嵐山の奥・混雑ゼロ ／ 拼団参加者だけの特別開門</div>
+          <div class="bigprice" id="bigprice">
+            <span class="yen">¥</span><span class="num" id="curPrice">3,200</span>
+            <span class="was">¥8,000</span>
+          </div>
+          <div class="countline"><b id="curN">18</b> <span data-i18n="people_now">人が参加中</span> — <span id="nextMsg"></span></div>
+          <div class="bigbar"><i id="bigbar" style="width:36%"></i></div>
+          <div class="ticks">
+            <span id="t1">1<span data-i18n="nin">人</span></span>
+            <span id="t20" class="hit">20<span data-i18n="nin">人</span>=<span data-i18n="kaisai">開催</span></span>
+            <span id="t35">35<span data-i18n="nin">人</span></span>
+            <span id="t50">50<span data-i18n="nin">人</span>=¥0</span>
+          </div>
+          <div class="avatars" id="avatars"></div>
+        </div>
+
+        <div class="ladder" id="ladder"></div>
+
+        <div class="invite">
+          <button class="primary" onclick="invite()">👫 <span data-i18n="invite">友達を誘って参加</span></button>
+          <button class="ghost" onclick="toggleAuto()" id="autoBtn">▶ <span data-i18n="auto">自動</span></button>
+        </div>
+        <div class="loopnote">
+          <span data-i18n="loop1">あなたが誘うと、その友達がまた友達を誘う。</span><br>
+          <b data-i18n="loop2">広告費ゼロで参加者が自動的に集まり、価格が¥0へ近づく。</b>
+        </div>
+      </div>
+
+      <!-- ===== ④ MAP / 分散 ===== -->
+      <div class="body view" id="v-map">
+        <div class="lede" data-i18n="map_lede" data-i18n-html="1">
+          拼団割引＋穴場体験で、近隣の穴場が<b>「選ばれる場所」</b>に変わる。結果、少ない地下鉄・バスへの集中が解け、混雑が市内全域へ自然に散る。
+        </div>
+        <div class="sechead">
+          <h2 data-i18n="map_h">混雑の分散</h2>
+          <small data-i18n="map_s">スイッチで切替</small>
+        </div>
+        <div class="switch">
+          <button id="sw-before" class="on" onclick="setMap('before')" data-i18n="before">定番ルート（今）</button>
+          <button id="sw-after" onclick="setMap('after')" data-i18n="after">KGo!で分散</button>
+        </div>
+        <div class="map" id="map"></div>
+        <div class="maplegend">
+          <span><i style="color:var(--red)">●</i> <span data-i18n="legend_red">過密スポット</span></span>
+          <span><i style="color:var(--green)">●</i> <span data-i18n="legend_green">穴場（分散先）</span></span>
+        </div>
+        <div class="mapcap" id="mapcap" data-i18n="map_cap_b">
+          全員がRED・Ctripの定番3スポットへ。少ない地下鉄とバスに需要が集中し、混雑が固定される。
+        </div>
+      </div>
+
+      <!-- ===== ⑤ REVERSAL / 逆転 ===== -->
+      <div class="body view" id="v-rev">
+        <div class="lede" data-i18n="rev_lede" data-i18n-html="1">
+          いま、京都での行動・決済・口コミデータは<b>すべて中国プラットフォームへ流出</b>している。KGo!×ここさんは、この<b>データバリューチェーンの向きを逆転</b>させる——これが「一発逆転」の核。
+        </div>
+
+        <div class="vctitle bad"><span class="lampe">❌</span><span data-i18n="rev_before">現状：データは中国プラットフォームへ流出</span></div>
+        <div class="chain bad" id="chainBefore"></div>
+
+        <div class="flipzone">
+          <button class="flipbtn" id="flipBtn" onclick="flipChain()"><span data-i18n="flip">逆転させる</span><span class="ar">↓</span></button>
+        </div>
+
+        <div class="vctitle good"><span class="lampe">✅</span><span data-i18n="rev_after">逆転後：日本発プラットフォームがデータを掌握</span></div>
+        <div class="chain good reveal" id="chainAfter"></div>
+
+        <div class="vcresult reveal" id="vcresult" data-i18n="rev_result" data-i18n-html="1">
+          日本側がデータを握ると：<b>①DP精度↑</b> → <b>②行動変容</b> → <b>③オーバーツーリズム解消</b> → <b>④さらにデータ蓄積</b>（正の循環）
+        </div>
+
+        <div class="sechead">
+          <h2 data-i18n="imp_h">この旅が変えること</h2>
+          <small id="kpiCase">モデルケース①</small>
+        </div>
+        <div class="kpigrid" id="kpigrid"></div>
+
+        <div class="data-sov">
+          <h3 data-i18n="ds_h">日本側に取り戻すデータ主権</h3>
+          <p data-i18n="ds_p">これまで中国プラットフォームに流れていた行動データを、日本発アプリが蓄積する。</p>
+          <div class="drow"><div class="ic">🧭</div><div class="dn" data-i18n="ds1">行動データ<small data-i18n="ds1s">いつ・どこへ・誰と</small></div><div class="dv">＋蓄積</div></div>
+          <div class="drow"><div class="ic">🎟️</div><div class="dn" data-i18n="ds2">拼団データ<small data-i18n="ds2s">グループ形成パターン</small></div><div class="dv">＋蓄積</div></div>
+          <div class="drow"><div class="ic">🍵</div><div class="dn" data-i18n="ds3">体験データ<small data-i18n="ds3s">予約・評価・季節性</small></div><div class="dv">＋蓄積</div></div>
+          <div class="drow"><div class="ic">📸</div><div class="dn" data-i18n="ds4">UGCデータ<small data-i18n="ds4s">口コミ・拡散経路</small></div><div class="dv">＋蓄積</div></div>
+        </div>
+
+        <div class="flywheel">
+          <h3 data-i18n="fw_h">正の循環（フライホイール）</h3>
+          <div class="ring">
+            <b data-i18n="fw1">体験で上流に介入</b> →
+            <b data-i18n="fw2">拼団で集客が無料化</b> →
+            <b data-i18n="fw3">自然に分散</b> →
+            <b data-i18n="fw4">データが貯まる</b> →
+            <span data-i18n="fw5">推薦と分散がさらに賢くなる</span> ↻
+          </div>
+        </div>
+      </div>
+
+      <!-- toast -->
+      <div class="toast" id="toast"></div>
+
+      <!-- persona sheet -->
+      <div class="sheet-bg" id="sheetbg" onclick="closeSheet()"></div>
+      <div class="sheet" id="sheet">
+        <h3 data-i18n="sheet_h">誰と来た？</h3>
+        <p data-i18n="sheet_p">同じ京都でも、最適な穴場と体験は人によって違う。</p>
+        <div class="opts" id="opts"></div>
+        <button class="done" onclick="closeSheet()" data-i18n="sheet_done">この設定で見る</button>
+      </div>
+
+      <!-- bottom nav -->
+      <div class="nav">
+        <button class="on" data-tab="home" onclick="go('home')"><span class="ni">🏯</span><span data-i18n="nav_home">発見</span></button>
+        <button data-tab="itin" onclick="go('itin')"><span class="ni">🗓️</span><span data-i18n="nav_itin">旅程</span></button>
+        <button data-tab="pin" onclick="go('pin')"><span class="ni">🎟️</span><span data-i18n="nav_pin">拼団</span></button>
+        <button data-tab="map" onclick="go('map')"><span class="ni">🗺️</span><span data-i18n="nav_map">分散</span></button>
+        <button data-tab="rev" onclick="go('rev')"><span class="ni">🔄</span><span data-i18n="nav_rev">逆転</span></button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footnote">
+    京大MBA・経営戦略 Group F／京都在住MBAによる当事者提案「バリューチェーンの流れを逆転せよ」より作成。<br>
+    数値・体験はモデルケースに基づくデモ表現です（<b>Fictional / 提案イメージ</b>）。実在の予約・決済は行いません。
+  </div>
+
+<script>
+/* ===================== i18n ===================== */
+const I18N = {
+  ja:{
+    kokosan:"ここさん体験", edit:"変更",
+    persona_couple:"カップル旅", persona_family:"家族旅", persona_solo:"ひとり旅", persona_friends:"友達グループ",
+    persona_sub:"予算 15万円 ・ 朝型 ・ はじめての京都",
+    crowd_t:"いまの金閣寺：激混み", crowd_s:"市バス205系統も満員 ・ 60分待ち", crowd_a:"穴場へ",
+    home_lede:"RED・Ctripなら全員が同じ<b>定番3スポット</b>へ。<b>ここさん</b>が川上で割り込み、あなたに合う「混雑ゼロの穴場体験」だけを提案する。",
+    home_h:"あなただけの京都", home_s:"定番じゃない・混雑ゼロ",
+    itin_lede:"オーバーツーリズムの川上は<b>「旅程設計」</b>。REDの定番ルートが混雑を固定する。<b>ここさん</b>がその一日を丸ごと設計し直す——同じ予算・同じ二人でも、体験はここまで変わる。",
+    day_bad:"❌ REDの定番ルート", day_good:"✅ ここさんの旅程",
+    pin_lede:"<b>拼団（ピントゥアン）</b>＝みんなで集まるほど安くなる共同購入。<b>20人で開催確定／50人で¥0</b>。「行きたいから人を集める」——旅行者自身が広告費ゼロの集客エンジンになる。",
+    map_lede:"拼団割引＋穴場体験で、近隣の穴場が<b>「選ばれる場所」</b>に変わる。少ない地下鉄・バスへの集中が解け、混雑が市内全域へ自然に散る。",
+    rev_lede:"いま、京都での行動・決済・口コミデータは<b>すべて中国プラットフォームへ流出</b>している。KGo!×ここさんは、この<b>データバリューチェーンの向きを逆転</b>させる——これが「一発逆転」の核。",
+    people_now:"人が参加中", nin:"人", kaisai:"開催",
+    invite:"友達を誘って参加", auto:"自動",
+    loop1:"あなたが3人誘えば、その3人がまた3人を誘う（1→3→9…）。",
+    loop2:"広告費ゼロで参加者が自動的に集まり、価格が¥0へ近づく。",
+    map_h:"混雑の分散", map_s:"スイッチで切替", before:"定番ルート（今）", after:"KGo!で分散",
+    legend_red:"過密スポット", legend_green:"穴場（分散先）",
+    map_cap_b:"全員がRED・Ctripの定番3スポットへ。少ない地下鉄とバスに需要が集中し、混雑が固定される。",
+    map_cap_a:"体験＋拼団割引で穴場が「選ばれる場所」に。蓄積した行動データで「来る前」に分散へ誘導し、需要が市内全域へ散る。",
+    rev_before:"現状：データは中国プラットフォームへ流出", rev_after:"逆転後：日本発プラットフォームがデータを掌握",
+    flip:"逆転させる",
+    rev_result:"日本側がデータを握ると：<b>①DP精度↑</b> → <b>②行動変容</b> → <b>③オーバーツーリズム解消</b> → <b>④さらにデータ蓄積</b>（正の循環）。RED・Ctripはこのデータを持たない——<b>差は開く一方</b>。",
+    imp_h:"この旅が変えること",
+    ds_h:"日本側に取り戻すデータ主権", ds_p:"これまで中国プラットフォームに流れていた行動データを、日本発アプリが蓄積する。",
+    ds1:"行動データ", ds1s:"いつ・どこへ・誰と", ds2:"拼団データ", ds2s:"グループ形成パターン",
+    ds3:"体験データ", ds3s:"予約・評価・季節性", ds4:"UGCデータ", ds4s:"口コミ・拡散経路",
+    fw_h:"正の循環（フライホイール）",
+    fw1:"体験で上流に介入", fw2:"拼団で集客が無料化", fw3:"自然に分散", fw4:"データが貯まる", fw5:"推薦と分散がさらに賢くなる",
+    sheet_h:"誰と来た？", sheet_p:"同じ京都でも、最適な穴場と体験は人によって違う。", sheet_done:"この設定で見る",
+    nav_home:"発見", nav_itin:"旅程", nav_pin:"拼団", nav_map:"分散", nav_rev:"逆転",
+    join:"参加する", open_at:"開催", free:"無料", recruit:"募集中", confirmed:"開催確定",
+    toast_join:"人が参加しました！", toast_free:"🎉 50人達成！この体験が ¥0 になりました",
+    case1:"モデルケース①（カップル）", case2:"モデルケース②（家族連れ）",
+    pnote_other:"※ モデルケースはカップル／家族で用意。あなたの条件でここさんが同じ要領で設計します。",
+    msg_open:n=>`あと${n}人で開催確定`, msg_free:n=>`あと${n}人で ¥0`, msg_done:"50人達成・無料開催！",
+  },
+  zh:{
+    kokosan:"Kokosan体验", edit:"修改",
+    persona_couple:"情侣游", persona_family:"家庭游", persona_solo:"一人游", persona_friends:"朋友团",
+    persona_sub:"预算 1.5万元 ・ 早起型 ・ 初次京都",
+    crowd_t:"此刻金阁寺：极度拥挤", crowd_s:"205路市巴士满员 ・ 排队60分钟", crowd_a:"去冷门",
+    home_lede:"用RED・携程，所有人都涌向同样的<b>三大打卡点</b>。<b>Kokosan</b>从上游切入，只为你推荐「零拥挤的冷门体验」。",
+    home_h:"专属你的京都", home_s:"非打卡・零拥挤",
+    itin_lede:"过度旅游的上游是<b>「行程规划」</b>。RED的固定路线把拥挤锁死。<b>Kokosan</b>重新设计你的一整天——同样的预算、同样的两个人，体验天差地别。",
+    day_bad:"❌ RED打卡路线", day_good:"✅ Kokosan行程",
+    pin_lede:"<b>拼团</b>＝人越多越便宜的团购。<b>满20人开团／满50人变¥0</b>。「因想去而拉人」——旅行者自己成为零广告费的获客引擎。",
+    map_lede:"拼团折扣＋冷门体验，让附近冷门景点成为<b>「被选中的地方」</b>。稀少的地铁・公交不再被挤爆，拥挤自然散向全城。",
+    rev_lede:"如今，在京都的行为・支付・口碑数据<b>全部流向中国平台</b>。KGo!×Kokosan将这条<b>数据价值链的方向逆转</b>——这就是「一发逆转」的核心。",
+    people_now:"人参与中", nin:"人", kaisai:"开团",
+    invite:"邀请朋友拼团", auto:"自动",
+    loop1:"你拉3人，那3人又各拉3人（1→3→9…）。",
+    loop2:"广告费为零，参与者自动聚集，价格趋近 ¥0。",
+    map_h:"拥挤分流", map_s:"点击切换", before:"打卡路线（现在）", after:"KGo!分流后",
+    legend_red:"过密景点", legend_green:"冷门（分流先）",
+    map_cap_b:"所有人涌向RED・携程的三大打卡点。需求集中于稀少的地铁与公交，拥挤被固化。",
+    map_cap_a:"体验＋拼团折扣让冷门景点成为「被选中的地方」。用积累的行为数据在「到达前」引导分流，需求散向全城。",
+    rev_before:"现状：数据流向中国平台", rev_after:"逆转后：日本本土平台掌握数据",
+    flip:"实现逆转",
+    rev_result:"日本一侧掌握数据后：<b>①定价精度↑</b> → <b>②行为改变</b> → <b>③过度旅游解决</b> → <b>④数据进一步积累</b>（正向循环）。RED・携程没有这些数据——<b>差距只会越拉越大</b>。",
+    imp_h:"这趟旅行带来的改变",
+    ds_h:"夺回日本一侧的数据主权", ds_p:"以往流向中国平台的行为数据，由日本本土App积累。",
+    ds1:"行为数据", ds1s:"何时・去哪・与谁", ds2:"拼团数据", ds2s:"团体形成模式",
+    ds3:"体验数据", ds3s:"预订・评价・季节性", ds4:"UGC数据", ds4s:"口碑・传播路径",
+    fw_h:"正向循环（飞轮）",
+    fw1:"以体验介入上游", fw2:"拼团让获客免费", fw3:"自然分流", fw4:"数据积累", fw5:"推荐与分流更聪明",
+    sheet_h:"和谁一起来？", sheet_p:"同样的京都，最佳冷门与体验因人而异。", sheet_done:"按此设置查看",
+    nav_home:"发现", nav_itin:"行程", nav_pin:"拼团", nav_map:"分流", nav_rev:"逆转",
+    join:"参加", open_at:"开团", free:"免费", recruit:"招募中", confirmed:"开团确定",
+    toast_join:"人加入了拼团！", toast_free:"🎉 满50人！此体验已变为 ¥0",
+    case1:"模型案例①（情侣）", case2:"模型案例②（家庭）",
+    pnote_other:"※ 模型案例为情侣／家庭。Kokosan会以同样方式为你的条件量身设计。",
+    msg_open:n=>`还差${n}人开团`, msg_free:n=>`还差${n}人变 ¥0`, msg_done:"满50人・免费开团！",
+  }
+};
+let lang='ja';
+const t=k=>I18N[lang][k];
+
+/* ===================== experiences (feed) ===================== */
+const EXPS = [
+  {id:'daikakuji', emoji:'🎋', grad:'linear-gradient(135deg,#3c7a4e,#7bbf8a)',
+   t:{ja:'大覚寺 早朝の貸切＋竹林撮影',zh:'大觉寺 早晨包场＋竹林拍摄'},
+   area:{ja:'嵐山の奥',zh:'岚山深处'}, alt:{ja:'← 嵐山・竹林の代わりに',zh:'← 替代岚山・竹林'},
+   base:8000, n:18, persona:['couple','solo','friends','family']},
+  {id:'ninnaji', emoji:'⛩️', grad:'linear-gradient(135deg,#8a4fc0,#c79be8)',
+   t:{ja:'仁和寺 早朝の貸切ツアー',zh:'仁和寺 早晨包场游览'},
+   area:{ja:'北山エリア',zh:'北山区'}, alt:{ja:'← 金閣寺の代わりに',zh:'← 替代金阁寺'},
+   base:6000, n:31, persona:['couple','family','friends','solo']},
+  {id:'washi', emoji:'🧪', grad:'linear-gradient(135deg,#c8902a,#eccb7a)',
+   t:{ja:'和紙を漉く 親子の手しごと工房',zh:'亲手抄和纸 亲子手工坊'},
+   area:{ja:'中心部',zh:'市中心'}, alt:{ja:'★ 子供が主役の体験',zh:'★ 孩子当主角'},
+   base:5000, n:12, persona:['family']},
+  {id:'fushimi', emoji:'🍵', grad:'linear-gradient(135deg,#6b3fa0,#a06fd0)',
+   t:{ja:'伏見の老舗で ペア和食コース',zh:'伏见百年老店 双人怀石'},
+   area:{ja:'伏見エリア',zh:'伏见区'}, alt:{ja:'← 錦市場の食べ歩きの代わりに',zh:'← 替代锦市场'},
+   base:12000, n:24, persona:['couple','solo']},
+  {id:'adashino', emoji:'🏮', grad:'linear-gradient(135deg,#4a5e8a,#8aa0c8)',
+   t:{ja:'化野念仏寺 静寂のさんぽ',zh:'化野念佛寺 静谧漫步'},
+   area:{ja:'嵐山エリア',zh:'岚山区'}, alt:{ja:'← 人混みの竹林の代わりに',zh:'← 替代拥挤竹林'},
+   base:3000, n:9, persona:['solo','couple','friends']},
+];
+
+const PERSONAS = {
+  couple:{av:'👫', name:'persona_couple', case:'case1', sub:{ja:'予算 15万円 ・ 朝型 ・ はじめての京都',zh:'预算 1.5万元 ・ 早起型 ・ 初次京都'}},
+  family:{av:'👨‍👩‍👧‍👦', name:'persona_family', case:'case2', sub:{ja:'予算 50万円 ・ 子供8歳/12歳 ・ 文化体験重視',zh:'预算 3万元 ・ 孩子8/12岁 ・ 注重文化体验'}},
+  solo:{av:'🚶', name:'persona_solo', case:'case1', sub:{ja:'予算 8万円 ・ 写真好き ・ 静かな場所',zh:'预算 8千元 ・ 爱摄影 ・ 偏好安静'}},
+  friends:{av:'👯', name:'persona_friends', case:'case1', sub:{ja:'予算 各10万円 ・ 4人 ・ 体験＆映え',zh:'预算 各1万元 ・ 4人 ・ 体验＆出片'}},
+};
+let persona='couple';
+
+/* ===================== KPIs (model cases) ===================== */
+const KPIS = {
+  couple:[
+    {k:{ja:'消費単価',zh:'消费单价'}, v:'+29%', cls:'up'},
+    {k:{ja:'体験系の比率',zh:'体验类占比'}, v:'35%', from:{ja:'← 5%',zh:'← 5%'}, cls:'up'},
+    {k:{ja:'バス利用',zh:'公交使用'}, v:'−80%', cls:'down'},
+    {k:{ja:'混雑スポット集中',zh:'拥挤景点集中'}, v:'−60%', cls:'down'},
+  ],
+  family:[
+    {k:{ja:'消費達成率',zh:'消费完成率'}, v:'130%', from:{ja:'← 60%',zh:'← 60%'}, cls:'up'},
+    {k:{ja:'子供の体験参加',zh:'儿童体验参与'}, v:'90%', from:{ja:'← 5%',zh:'← 5%'}, cls:'up'},
+    {k:{ja:'疲弊キャンセル',zh:'疲惫取消'}, v:{ja:'ゼロ',zh:'归零'}, cls:'down'},
+    {k:{ja:'混雑分散',zh:'拥挤分流'}, v:{ja:'自然に↑',zh:'自然↑'}, cls:'flat'},
+  ],
+};
+KPIS.solo = KPIS.couple; KPIS.friends = KPIS.couple;
+
+/* ===================== itineraries (旅程) ===================== */
+const ITINS = {
+  couple:{
+    bad:{
+      label:{ja:'REDの定番ルート',zh:'RED打卡路线'},
+      banner:{logo:'RED',
+        head:{ja:'推奨ルート：金閣寺 → 嵐山 → 清水寺',zh:'推荐行程：金阁寺 → 岚山 → 清水寺'},
+        note:{ja:'みんなが選ぶ「定番」。旅程の川上をREDが握り、全員が同じルートへ。',zh:'大家都选的「打卡路线」。RED掌控行程上游，所有人走同一条路。'}},
+      mood:{ja:'😔 「京都は疲れた」',zh:'😔 「京都太累了」'},
+      spend:{ja:'消費 17万円／体験 5%未満',zh:'消费 1.7万元／体验 不足5%'},
+      steps:[
+        {time:'09:00',em:'📱',h:{ja:'「金閣寺・嵐山・清水寺」をコピペ',zh:'复制「金阁寺・岚山・清水寺」'},d:{ja:'REDの定番3スポット。見た目は綺麗だが全員同じ',zh:'RED三大打卡点。画面好看，但人人同路'},tag:{ja:'定番ルート',zh:'打卡路线'}},
+        {time:'10:00',em:'🚌',h:{ja:'市バス205系統で移動',zh:'乘205路市巴士'},d:{ja:'満員。撮っているのは人混みの頭ばかり',zh:'满员，拍到的全是人头'},tag:{ja:'満員',zh:'满员'}},
+        {time:'11:00',em:'⏳',h:{ja:'金閣寺で60分待ち',zh:'金阁寺等候60分钟'},d:{ja:'「こんなはずじゃなかった」',zh:'「没想到会这样」'},tag:{ja:'60分待ち',zh:'排队60分'}},
+        {time:'12:30',em:'📷',h:{ja:'嵐山・竹林、人混みで写真撮れず',zh:'岚山竹林，人潮汹涌拍不到'},d:{ja:'REDに「混んでた、残念」と投稿',zh:'在RED发帖「人太多，失望」'},tag:{ja:'激混み',zh:'极挤'}},
+        {time:'19:00',em:'🍽️',h:{ja:'錦市場付近で食べ歩き',zh:'锦市场附近随便吃'},d:{ja:'深夜まで混雑・価格高騰',zh:'深夜依旧拥挤・价格虚高'},tag:{ja:'割高',zh:'偏贵'}},
+      ],
+    },
+    good:{
+      label:{ja:'ここさんの旅程',zh:'Kokosan行程'},
+      mood:{ja:'😍 「また来たい京都」',zh:'😍 「还想再来的京都」'},
+      spend:{ja:'消費 22万円／体験 35%',zh:'消费 2.2万元／体验 35%'},
+      steps:[
+        {time:'07:00',em:'🎋',h:{ja:'大覚寺 早朝の貸切＋竹林撮影',zh:'大觉寺 早晨包场＋竹林拍摄'},d:{ja:'拼団20名だけの特別開門。混雑ゼロ',zh:'仅限20名拼团者的特别开门。零拥挤'},tag:{ja:'混雑ゼロ',zh:'零拥挤'}},
+        {time:'09:00',em:'📸',h:{ja:'無人の竹林で30分撮影',zh:'无人竹林独享30分钟'},d:{ja:'とっておきの写真→SNSで友人に拡散',zh:'拍出大片→在社媒引发转发'},tag:{ja:'貸切',zh:'包场'}},
+        {time:'11:00',em:'👥',h:{ja:'友人3組に「一緒に行こう」',zh:'拉3组朋友「一起去」'},d:{ja:'次の拼団参加者が自動で集まる',zh:'下一批拼团者自动聚集'},tag:{ja:'口コミ拡散',zh:'口碑裂变'}},
+        {time:'12:30',em:'🍵',h:{ja:'伏見の老舗で ペア和食コース',zh:'伏见百年老店 双人怀石'},d:{ja:'事前予約・動線・移動までアプリが最適化',zh:'预约・动线・交通由App一键搞定'},tag:{ja:'予約済',zh:'已预约'}},
+      ],
+    },
+  },
+  family:{
+    bad:{
+      label:{ja:'Ctripのパッケージツアー',zh:'携程标准套餐'},
+      banner:{logo:'Ctrip',
+        head:{ja:'おすすめ2日間：金閣寺・二条城・伏見稲荷',zh:'推荐2日游：金阁寺・二条城・伏见稻荷'},
+        note:{ja:'子供向け解説なしのパッケージ。旅程をCtripが設計し、全員が同じ2日間へ。',zh:'无儿童解说的套餐。行程由携程设计，所有人走同样2天。'}},
+      mood:{ja:'📉 消費は計画の60%で終了',zh:'📉 消费仅完成计划的60%'},
+      spend:{ja:'「子供が楽しめる体験を探せばよかった」',zh:'「早该找更适合孩子的体验」'},
+      steps:[
+        {time:'Day1',em:'📱',h:{ja:'「京都2日間」金閣寺・二条城・伏見稲荷',zh:'「京都2日游」金阁寺・二条城・伏见稻荷'},d:{ja:'子供向けの解説はなし',zh:'无儿童专属解说'},tag:{ja:'パッケージ',zh:'套餐'}},
+        {time:'',em:'🚌',h:{ja:'バス・タクシーで移動、子連れで大変',zh:'公交・出租，带娃辛苦'},d:{ja:'ベビーカー不可。下の子が泣く',zh:'婴儿车上不了车，小孩大哭'},tag:{ja:'移動負担',zh:'移动负担'}},
+        {time:'',em:'😰',h:{ja:'伏見稲荷：炎天下に90分待ち',zh:'伏见稻荷：烈日下排队90分钟'},d:{ja:'子供が体調不良「もう帰りたい」',zh:'孩子身体不适「想回去」'},tag:{ja:'90分待ち',zh:'排队90分'}},
+        {time:'',em:'🍜',h:{ja:'観光地のラーメン店でやや割高',zh:'景点附近拉面店，偏贵'},d:{ja:'地元向けの食堂を知らない',zh:'不知道有本地平价食堂'},tag:{ja:'割高',zh:'偏贵'}},
+        {time:'',em:'🏨',h:{ja:'早々にホテルへ戻り子供は就寝',zh:'早早回酒店，孩子倒头就睡'},d:{ja:'疲弊して予定をキャンセル',zh:'疲惫取消后续行程'},tag:{ja:'計画60%',zh:'仅完成60%'}},
+      ],
+    },
+    good:{
+      label:{ja:'ここさんの家族旅程',zh:'Kokosan家庭行程'},
+      mood:{ja:'⭐ 「最高の家族旅行」',zh:'⭐ 「最棒的家庭旅行」'},
+      spend:{ja:'消費 計画の130%／子供が主役',zh:'消费 计划的130%／孩子当主角'},
+      steps:[
+        {time:'07:30',em:'🎌',h:{ja:'仁和寺・平野神社 早朝の貸切ツアー',zh:'仁和寺・平野神社 早晨包场'},d:{ja:'観光客の来る前の静寂。子供も走れる',zh:'游客到来前的宁静，孩子能尽情奔跑'},tag:{ja:'早朝貸切',zh:'早晨包场'}},
+        {time:'10:00',em:'🧪',h:{ja:'和紙を漉く 体験工房',zh:'亲手抄和纸 手工坊'},d:{ja:'「自分で作った！」12歳が大興奮',zh:'「我自己做的！」12岁孩子大兴奋'},tag:{ja:'年齢別設計',zh:'按年龄设计'}},
+        {time:'12:30',em:'🍱',h:{ja:'地元向け 仕出し弁当',zh:'面向本地家庭的特色便当'},d:{ja:'地元事業者と連携。家族5人で3,000円',zh:'与本地运营商合作，全家5人约200元'},tag:{ja:'地元価格',zh:'本地价'}},
+        {time:'17:00',em:'🏮',h:{ja:'伏見の提灯エリアを5家族で散策',zh:'与5家庭漫步伏见灯笼小巷'},d:{ja:'拼団仲間と。子供同士が友達に',zh:'与拼团伙伴同行，孩子成了朋友'},tag:{ja:'拼団仲間',zh:'拼团伙伴'}},
+      ],
+    },
+  },
+};
+ITINS.solo = ITINS.couple; ITINS.friends = ITINS.couple;
+
+/* ===================== value chain (逆転) ===================== */
+const VC = {
+  before:[
+    {stage:{ja:'旅行計画',zh:'旅行计划'}, who:{ja:'RED・Ctrip',zh:'RED・携程'}, to:{ja:'行動データ → 中国へ',zh:'行为数据 → 流向中国'}},
+    {stage:{ja:'予約・決済',zh:'预订・支付'}, who:{ja:'WeChat Pay',zh:'微信支付'}, to:{ja:'決済データ → 中国へ',zh:'支付数据 → 流向中国'}},
+    {stage:{ja:'現地消費',zh:'现地消费'}, who:{ja:'日本の店舗',zh:'日本店铺'}, to:{ja:'売上のみ・データなし',zh:'仅营业额・无数据'}},
+    {stage:{ja:'体験共有',zh:'体验分享'}, who:{ja:'RED投稿',zh:'RED投稿'}, to:{ja:'UGCデータ → 中国へ',zh:'UGC数据 → 流向中国'}},
+  ],
+  after:[
+    {stage:{ja:'旅行計画',zh:'旅行计划'}, who:{ja:'統合PF — 体験で川上介入',zh:'综合平台 — 体验介入上游'}, to:{ja:'行動データ → 日本に蓄積',zh:'行为数据 → 积累于日本'}},
+    {stage:{ja:'予約・拼団',zh:'预订・拼团'}, who:{ja:'KGo! 拼団 — 50人で0円・拡散',zh:'KGo!拼团 — 50人0元・裂变'}, to:{ja:'拼団データ → 日本に蓄積',zh:'拼团数据 → 积累于日本'}},
+    {stage:{ja:'体験設計・実施',zh:'体验设计・执行'}, who:{ja:'ここさん — 穴場体験で自然分散',zh:'Kokosan — 冷门体验自然分流'}, to:{ja:'体験データ → 日本に蓄積',zh:'体验数据 → 积累于日本'}},
+    {stage:{ja:'体験共有 → 再循環',zh:'体验分享 → 再循环'}, who:{ja:'統合PF — UGCがREDへ拡散→次を誘導',zh:'综合平台 — UGC扩散至RED→引导下一批'}, to:{ja:'UGCデータ → 日本に蓄積',zh:'UGC数据 → 积累于日本'}},
+  ],
+};
+
+/* ===================== 拼团 logic ===================== */
+const OPEN=20, FREE=50, BASE=8000;
+let pinN=18, autoTimer=null;
+function priceTuned(n){
+  if(n>=FREE) return 0;
+  if(n<OPEN)  return BASE;
+  const v = 3200*(FREE-n)/(FREE-OPEN);   // 20人=3200, 35人=1600, 50人=0
+  return Math.round(v/100)*100;
+}
+const yen=v=> v===0 ? '0' : v.toLocaleString();
+
+function renderPin(){
+  const price=priceTuned(pinN);
+  document.getElementById('curN').textContent=pinN;
+  document.getElementById('curPrice').textContent=yen(price);
+  const bp=document.getElementById('bigprice');
+  bp.classList.toggle('free', price===0);
+  bp.querySelector('.was').style.display = price===0?'none':(pinN>=OPEN?'inline':'none');
+  const pct=Math.min(100, pinN/FREE*100);
+  document.getElementById('bigbar').style.width=pct+'%';
+  document.querySelectorAll('.ticks span').forEach(s=>s.classList.remove('hit'));
+  if(pinN>=OPEN) document.getElementById('t20').classList.add('hit');
+  if(pinN>=35) document.getElementById('t35').classList.add('hit');
+  if(pinN>=FREE) document.getElementById('t50').classList.add('hit');
+  const nm=document.getElementById('nextMsg');
+  if(pinN<OPEN) nm.textContent=t('msg_open')(OPEN-pinN);
+  else if(pinN<FREE) nm.textContent=t('msg_free')(FREE-pinN);
+  else nm.textContent=t('msg_done');
+  const av=document.getElementById('avatars');
+  const faces=['🧑','👩','👨','🧓','👧','👦','🧔','👱‍♀️','👲','🙎'];
+  const show=Math.min(pinN,16);
+  av.innerHTML='';
+  for(let i=0;i<show;i++){const d=document.createElement('div');d.className='a';d.textContent=faces[i%faces.length];av.appendChild(d);}
+  if(pinN>16){const m=document.createElement('div');m.className='more';m.textContent='+'+(pinN-16);av.appendChild(m);}
+  renderLadder();
+}
+function renderLadder(){
+  const rows=[
+    {key:'1', n:'1'+t('nin'), sub:t('recruit'), price:BASE},
+    {key:'20', n:OPEN+t('nin'), sub:t('confirmed'), price:priceTuned(OPEN)},
+    {key:'35', n:'35'+t('nin'), sub:'', price:priceTuned(35)},
+    {key:'50', n:FREE+t('nin'), sub:'🎉 '+t('free'), price:0},
+  ];
+  const L=document.getElementById('ladder'); L.innerHTML='';
+  rows.forEach(r=>{
+    const z = r.price===0;
+    const thr = parseInt(r.key,10);
+    const done = (r.key!=='1') && pinN>=thr;
+    const act = (r.key==='1'&&pinN<OPEN) || (r.key==='20'&&pinN>=OPEN&&pinN<35) ||
+                (r.key==='35'&&pinN>=35&&pinN<FREE) || (r.key==='50'&&pinN>=FREE);
+    const el=document.createElement('div');
+    el.className='lr'+(act?' act':'');
+    el.innerHTML=`<div class="lt">${r.n}${r.sub?` <small>${r.sub}</small>`:''}</div>
+      <div style="display:flex;align-items:center">
+      <span class="lp ${z?'z':''}">${z?'¥0':'¥'+yen(r.price)}</span>
+      ${done?`<span class="chk">✓</span>`:''}</div>`;
+    L.appendChild(el);
+  });
+}
+function showToast(msg){
+  const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show');
+  clearTimeout(el._tt); el._tt=setTimeout(()=>el.classList.remove('show'),1900);
+}
+function invite(){
+  if(pinN>=FREE){ showToast(t('toast_free')); renderPin(); return; }
+  const add=2+Math.floor(Math.random()*4); // 2-5 viral spread
+  const before=pinN; pinN=Math.min(FREE,pinN+add);
+  renderPin();
+  if(before<FREE && pinN>=FREE){ celebrate(); showToast(t('toast_free')); }
+  else showToast('+'+(pinN-before)+' '+t('toast_join'));
+}
+function toggleAuto(){
+  const b=document.getElementById('autoBtn');
+  if(autoTimer){ clearInterval(autoTimer); autoTimer=null; b.innerHTML='▶ <span>'+t('auto')+'</span>'; return; }
+  b.innerHTML='⏸ <span>'+t('auto')+'</span>';
+  autoTimer=setInterval(()=>{
+    if(pinN>=FREE){ clearInterval(autoTimer); autoTimer=null; b.innerHTML='▶ <span>'+t('auto')+'</span>'; celebrate(); showToast(t('toast_free')); return; }
+    pinN=Math.min(FREE,pinN+1); renderPin();
+  },420);
+}
+function celebrate(){
+  const hero=document.querySelector('.pintuan-hero');
+  for(let i=0;i<24;i++){
+    const c=document.createElement('div');
+    c.textContent=['🎉','✨','🎋','🏮','💜'][i%5];
+    c.style.cssText=`position:absolute;left:${Math.random()*100}%;top:-10px;font-size:${12+Math.random()*10}px;
+      transition:transform 1.4s ease, opacity 1.4s;z-index:5;pointer-events:none`;
+    hero.appendChild(c);
+    requestAnimationFrame(()=>{c.style.transform=`translateY(${180+Math.random()*60}px) rotate(${Math.random()*360}deg)`;c.style.opacity='0';});
+    setTimeout(()=>c.remove(),1500);
+  }
+}
+
+/* ===================== feed (発見) ===================== */
+function renderFeed(){
+  const feed=document.getElementById('feed'); feed.innerHTML='';
+  const list=EXPS.filter(e=>e.persona.includes(persona));
+  list.forEach(e=>{
+    const open=e.n>=OPEN, free=e.n>=FREE, price=priceTuned(e.n);
+    const card=document.createElement('div'); card.className='card';
+    const isPinTarget = e.id==='daikakuji';
+    card.innerHTML=`
+      <div class="pic" style="background:${e.grad}">
+        <span class="emoji">${e.emoji}</span>
+        <span class="badge crowdlow">🟢 ${lang==='ja'?'混雑 低':'零拥挤'}</span>
+      </div>
+      <div class="info">
+        <div class="t">${e.t[lang]}</div>
+        <div class="area">📍 ${e.area[lang]} <span style="color:var(--kyoto);font-weight:700">${e.alt[lang]}</span></div>
+        <div class="pint">
+          <div class="pl"><span>🎟️ ${lang==='ja'?'拼団 募集中':'拼团招募中'} ${e.n}/${OPEN}〜${FREE}${t('nin')}</span>
+          <span>${free?'¥0':'¥'+yen(price)}</span></div>
+          <div class="bar"><i style="width:${Math.min(100,e.n/FREE*100)}%"></i></div>
+        </div>
+        <div class="price">
+          <div class="now">${free?`<span class="zero">${lang==='ja'?'いま無料！':'现已免费！'}</span>`:`${lang==='ja'?'1人':'单人'} <span class="strike">¥${yen(e.base)}</span> → <b>¥${yen(price)}</b>`}</div>
+          <button class="joinbtn" onclick="${isPinTarget?`go('pin')`:`showToast('${lang==='ja'?'拼団タブで開いてみてください':'请在拼团页打开'}')`}">${isPinTarget?(lang==='ja'?'拼団を見る →':'查看拼团 →'):t('join')}</button>
+        </div>
+      </div>`;
+    feed.appendChild(card);
+  });
+}
+
+/* ===================== itinerary (旅程) ===================== */
+let dayMode='bad';
+function setDay(m){
+  dayMode=m;
+  document.getElementById('d-bad').classList.toggle('on',m==='bad');
+  document.getElementById('d-good').classList.toggle('on',m==='good');
+  const sw=document.getElementById('dayswitch'); sw.classList.toggle('bad',m==='bad');
+  renderItin();
+}
+function renderItin(){
+  const data=ITINS[persona][dayMode];
+  const good=dayMode==='good';
+  // persona note for solo/friends (reusing couple)
+  const pn=document.getElementById('pnote');
+  if(persona==='solo'||persona==='friends'){ pn.style.display='block'; pn.textContent=t('pnote_other'); }
+  else pn.style.display='none';
+  // RED/Ctrip hijack banner (bad mode only) — shows who controls the upstream itinerary
+  const rb=document.getElementById('redbanner');
+  if(!good && data.banner){
+    const bn=data.banner; rb.style.display='flex';
+    const ctrip = bn.logo==='Ctrip';
+    rb.innerHTML=`<span class="rl"${ctrip?' style="background:#2577e3"':''}>${bn.logo}</span>`+
+      `<div><b>${bn.head[lang]}</b><span>${bn.note[lang]}</span></div>`;
+  } else { document.getElementById('redbanner').style.display='none'; }
+  // summary
+  document.getElementById('daysum').innerHTML=
+    `<div class="ds ${good?'good':'bad'}">
+       <div class="mood">${data.mood[lang]}</div>
+       <span class="sp">${data.spend[lang]}</span>
+     </div>`;
+  // timeline
+  const tl=document.getElementById('timeline'); tl.innerHTML='';
+  data.steps.forEach(s=>{
+    const row=document.createElement('div'); row.className='tlrow '+(good?'good':'bad');
+    row.innerHTML=`
+      <div class="time">${s.time||''}</div>
+      <div class="dot"></div>
+      <div class="tc">
+        <div class="h"><span class="em">${s.em}</span><span>${s.h[lang]}</span></div>
+        <div class="d">${s.d[lang]}</div>
+        ${s.tag?`<span class="tag ${good?'good':'bad'}">${good?'🟢':'🔴'} ${s.tag[lang]}</span>`:''}
+      </div>`;
+    tl.appendChild(row);
+  });
+  // caption
+  const cap=document.getElementById('itincap');
+  cap.innerHTML = good
+    ? (lang==='ja'
+        ? 'ここさんが<b>旅程設計の川上</b>に割り込み、REDの定番ルートを置き換える。混雑の原因そのものが消える。'
+        : 'Kokosan切入<b>行程规划的上游</b>，替换RED的固定路线。拥挤的成因被直接消除。')
+    : (lang==='ja'
+        ? 'REDが旅程の川上を握る限り、規制も値上げも<b>「来た後」</b>の対処。混雑は固定されたまま。'
+        : '只要RED掌控行程上游，管控与提价都只是<b>「来了之后」</b>的应对。拥挤依旧被锁死。');
+}
+
+/* ===================== map (分散) ===================== */
+const SPOTS=[
+  {x:30,y:24,r:'金閣寺',rz:'金阁寺',g:'仁和寺',gz:'仁和寺'},
+  {x:20,y:62,r:'嵐山・竹林',rz:'岚山・竹林',g:'大覚寺',gz:'大觉寺'},
+  {x:74,y:40,r:'清水寺',rz:'清水寺',g:'建仁寺',gz:'建仁寺'},
+  {x:66,y:78,r:'伏見稲荷',rz:'伏见稻荷',g:'城南宮',gz:'城南宫'},
+];
+let mapMode='before';
+function setMap(m){
+  mapMode=m;
+  document.getElementById('sw-before').classList.toggle('on',m==='before');
+  document.getElementById('sw-after').classList.toggle('on',m==='after');
+  document.getElementById('mapcap').innerHTML = m==='before'? t('map_cap_b'):t('map_cap_a');
+  renderMap();
+}
+function renderMap(){
+  const map=document.getElementById('map');
+  map.innerHTML='<div class="riv"></div>';
+  SPOTS.forEach((s,i)=>{
+    const after=mapMode==='after';
+    const sp=document.createElement('div');
+    sp.className='spot '+(after?'green':'red');
+    sp.style.left=(after? s.x+ (i%2?16:-12):s.x)+'%';
+    sp.style.top =(after? s.y+ (i%2?-10:12):s.y)+'%';
+    const label= after?(lang==='ja'?s.g:s.gz):(lang==='ja'?s.r:s.rz);
+    const cnt = after? (lang==='ja'?'適度':'适中') : (lang==='ja'?'激混み':'极挤');
+    sp.innerHTML=`<div class="pin"><b>${after?'🟢':'🔴'}</b></div><div class="lab">${label}</div><div class="cnt">${cnt}</div>`;
+    map.appendChild(sp);
+  });
+  const cluster = mapMode==='before';
+  for(let i=0;i<10;i++){
+    const p=document.createElement('div'); p.className='crowdpeople'; p.textContent='🧍';
+    if(cluster){ const s=SPOTS[i%SPOTS.length]; p.style.left=(s.x-6+Math.random()*12)+'%'; p.style.top=(s.y+6+Math.random()*10)+'%'; }
+    else{ p.style.left=(10+Math.random()*80)+'%'; p.style.top=(10+Math.random()*78)+'%'; }
+    map.appendChild(p);
+  }
+}
+
+/* ===================== reversal (逆転) ===================== */
+function renderChains(){
+  const cb=document.getElementById('chainBefore'); cb.innerHTML='';
+  VC.before.forEach((s,i)=>{
+    if(i>0) cb.insertAdjacentHTML('beforeend','<div class="vcconn">↓</div>');
+    cb.insertAdjacentHTML('beforeend',
+      `<div class="vcstage"><div class="vn">${i+1}</div>
+        <div class="vmeta"><b>${s.stage[lang]}</b><span>${s.who[lang]}</span></div>
+        <div class="vto">${s.to[lang]}</div></div>`);
+  });
+  const ca=document.getElementById('chainAfter'); ca.innerHTML='';
+  VC.after.forEach((s,i)=>{
+    if(i>0) ca.insertAdjacentHTML('beforeend','<div class="vcconn">↓</div>');
+    ca.insertAdjacentHTML('beforeend',
+      `<div class="vcstage"><div class="vn">${i+1}</div>
+        <div class="vmeta"><b>${s.stage[lang]}</b><span>${s.who[lang]}</span></div>
+        <div class="vto acc">${s.to[lang]}</div></div>`);
+  });
+  // Preserve reveal state when language changes
+  if(flipped){
+    ca.classList.add('show');
+    document.getElementById('vcresult').classList.add('show');
+  }
+}
+let flipped=false;
+function flipChain(){
+  flipped=true;
+  document.getElementById('chainAfter').classList.add('show');
+  document.getElementById('vcresult').classList.add('show');
+  const b=document.getElementById('flipBtn');
+  b.style.opacity='.5'; b.style.pointerEvents='none';
+  b.querySelector('.ar').textContent='✓';
+  document.getElementById('chainAfter').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function resetFlip(){
+  // reset every time the 逆転 tab is entered, so the reveal is replayable during a live demo
+  flipped=false;
+  document.getElementById('chainAfter').classList.remove('show');
+  document.getElementById('vcresult').classList.remove('show');
+  const b=document.getElementById('flipBtn');
+  b.style.opacity='1'; b.style.pointerEvents='auto';
+  b.querySelector('.ar').textContent='↓';
+}
+function renderKpis(){
+  const grid=document.getElementById('kpigrid'); grid.innerHTML='';
+  (KPIS[persona]||KPIS.couple).forEach(m=>{
+    const v = typeof m.v==='object'? m.v[lang]:m.v;
+    const from = m.from? `<small>${m.from[lang]}</small>`:'';
+    grid.insertAdjacentHTML('beforeend',
+      `<div class="kpi"><div class="k">${m.k[lang]}</div><div class="v ${m.cls}">${v} ${from}</div></div>`);
+  });
+  document.getElementById('kpiCase').textContent = t(PERSONAS[persona].case);
+}
+
+/* ===================== persona sheet ===================== */
+function renderOpts(){
+  const wrap=document.getElementById('opts'); wrap.innerHTML='';
+  Object.entries(PERSONAS).forEach(([k,p])=>{
+    const o=document.createElement('div'); o.className='opt'+(k===persona?' on':'');
+    o.onclick=()=>{persona=k; renderOpts(); applyPersona();};
+    o.innerHTML=`<div class="oe">${p.av}</div><div class="ol">${I18N[lang][p.name]}</div>`;
+    wrap.appendChild(o);
+  });
+}
+function applyPersona(){
+  const p=PERSONAS[persona];
+  document.getElementById('pAv').textContent=p.av;
+  document.getElementById('pName').textContent=I18N[lang][p.name];
+  document.getElementById('pSub').textContent=p.sub[lang];
+  renderFeed(); renderItin(); renderKpis();
+}
+function openSheet(){renderOpts();document.getElementById('sheetbg').classList.add('show');document.getElementById('sheet').classList.add('show');}
+function closeSheet(){document.getElementById('sheetbg').classList.remove('show');document.getElementById('sheet').classList.remove('show');}
+
+/* ===================== nav / lang ===================== */
+function go(tab){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.getElementById('v-'+tab).classList.add('on');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  document.querySelectorAll('.rail .step').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  const cur=document.querySelector('.body.view.on'); if(cur) cur.scrollTop=0;
+  if(tab==='rev') resetFlip();
+}
+function applyI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n'); const v=I18N[lang][k];
+    if(v!==undefined && typeof v==='string'){
+      if(el.hasAttribute('data-i18n-html')) el.innerHTML=v; else el.textContent=v;
+    }
+  });
+  document.documentElement.lang=lang;
+}
+function setLang(l){
+  lang=l;
+  document.getElementById('jp').classList.toggle('on',l==='ja');
+  document.getElementById('zh').classList.toggle('on',l==='zh');
+  applyI18n(); applyPersona(); renderPin(); renderMap(); renderChains();
+  document.getElementById('mapcap').innerHTML = mapMode==='before'? t('map_cap_b'):t('map_cap_a');
+}
+
+/* ===================== init ===================== */
+applyI18n();
+applyPersona();
+renderPin();
+renderMap();
+renderItin();
+renderChains();
+renderKpis();
+</script>
+</body>
+</html>
