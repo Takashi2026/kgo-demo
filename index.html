@@ -5,6 +5,7 @@
 <!-- Security hardening: lock the page to its own inline code only; block all external/injected scripts, network egress, framing, form posts, plugins. Static demo, no backend, no user input, no data collection. -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
 <meta name="referrer" content="no-referrer">
+<script>/* anti-clickjacking: frame-ancestors can't be set via meta/Pages, so refuse to render inside a frame */if(self!==top){try{top.location=self.location}catch(e){document.documentElement.style.display='none'}}</script>
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KGo! × ここさん — 京都・逆張りの旅（デモ）</title>
