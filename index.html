@@ -8,7 +8,7 @@
 <script>/* anti-clickjacking: frame-ancestors can't be set via meta/Pages, so refuse to render inside a frame */if(self!==top){try{top.location=self.location}catch(e){document.documentElement.style.display='none'}}</script>
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>KGo! × ここさん — 京都・逆張りの旅（デモ）</title>
+<title>京結び（きょうむすび）— 京都・一発逆転の体感デモ</title>
 <style>
   :root{
     --kyoto:#5b2a86;        /* 京紫 */
@@ -37,6 +37,7 @@
   .stage{max-width:920px;width:100%;text-align:center;margin-bottom:18px}
   .stage h1{font-size:21px;margin:0 0 6px;letter-spacing:.3px}
   .stage h1 b{color:var(--kyoto)}
+  .stage h1 small{font-size:12px;color:var(--sub);font-weight:600}
   .stage p{margin:0;color:#534d63;font-size:13px;line-height:1.6}
   .stage .pill{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;
     padding:5px 12px;font-size:11.5px;color:var(--sub);margin-top:10px}
@@ -96,10 +97,11 @@
   .lede{font-size:11.5px;color:#534d63;line-height:1.6;background:#fff;border:1px solid var(--line);
     border-radius:14px;padding:10px 12px;margin-bottom:14px}
   .lede b{color:var(--kyoto)}
+  .notesmall{font-size:10px;color:var(--sub);line-height:1.55;margin:-6px 2px 14px;padding:0 2px}
 
   /* crowd banner */
   .crowd{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);
-    border-radius:16px;padding:11px 13px;margin-bottom:14px;box-shadow:var(--shadow)}
+    border-radius:16px;padding:11px 13px;margin-bottom:10px;box-shadow:var(--shadow)}
   .crowd .gauge{width:44px;height:44px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;
     font-size:12px;font-weight:800;color:#fff;background:conic-gradient(var(--red) 0 92%, #f0e9e7 92% 100%);}
   .crowd .gauge i{width:34px;height:34px;background:#fff;border-radius:50%;display:grid;place-items:center;color:var(--red);font-style:normal}
@@ -107,6 +109,12 @@
   .crowd .txt b{font-size:12.5px}
   .crowd .txt span{display:block;font-size:11px;color:var(--sub)}
   .crowd .arrow{color:var(--green);font-weight:800;font-size:12px;text-align:right;line-height:1.3}
+
+  /* issue stats strip (発見) */
+  .stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
+  .stats3 .st{background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px 6px;text-align:center;box-shadow:var(--shadow)}
+  .stats3 .st b{display:block;font-size:16.5px;color:var(--red);letter-spacing:-.3px}
+  .stats3 .st span{font-size:9.5px;color:var(--sub);line-height:1.35;display:block;margin-top:2px}
 
   /* experience cards */
   .card{background:var(--card);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}
@@ -262,11 +270,11 @@
   .reveal{opacity:0;transform:translateY(10px);transition:.5s}
   .reveal.show{opacity:1;transform:none}
 
-  /* ===== impact (KPIs / sovereignty / flywheel) ===== */
-  .kpigrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+  /* ===== impact (KPIs / data loop / flywheel) ===== */
+  .kpigrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
   .kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px;box-shadow:var(--shadow)}
   .kpi .k{font-size:11px;color:var(--sub);font-weight:700}
-  .kpi .v{font-size:22px;font-weight:900;margin-top:4px;display:flex;align-items:baseline;gap:5px}
+  .kpi .v{font-size:20px;font-weight:900;margin-top:4px;display:flex;align-items:baseline;gap:5px;flex-wrap:wrap}
   .kpi .v small{font-size:12px;color:var(--sub);font-weight:700}
   .kpi .v.up{color:var(--green)}.kpi .v.down{color:var(--kyoto)}.kpi .v.flat{color:var(--gold)}
   .data-sov{background:linear-gradient(140deg,#2c1450,#5b2a86);color:#fff;border-radius:18px;padding:12px;margin-bottom:14px}
@@ -277,10 +285,55 @@
   .data-sov .drow .dn{flex:1;font-size:12px;font-weight:700}
   .data-sov .drow .dn small{display:block;font-weight:500;opacity:.75;font-size:10px}
   .data-sov .drow .dv{font-size:14px;font-weight:900;color:#ffe39a}
-  .flywheel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow);text-align:center}
+  .flywheel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow);text-align:center;margin-bottom:14px}
   .flywheel h3{margin:0 0 10px;font-size:13px}
   .flywheel .ring{font-size:11.5px;color:#4a4458;line-height:1.9}
   .flywheel .ring b{color:var(--kyoto)}
+
+  /* ===== business model blocks (逆転タブ拡張 / v48) ===== */
+  .bizwrap{background:#fff;border:1px solid var(--line);border-radius:16px;padding:6px 4px;margin-bottom:8px;box-shadow:var(--shadow)}
+  .bizrow{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-bottom:1px solid var(--line)}
+  .bizrow:last-child{border-bottom:0}
+  .bizrow .ic{font-size:18px;flex:0 0 24px;text-align:center;padding-top:1px}
+  .bizrow .bt{flex:1;line-height:1.4}
+  .bizrow .bt b{font-size:12.5px;color:var(--kyoto)}
+  .bizrow .bt span{display:block;font-size:10.5px;color:var(--sub);margin-top:2px;line-height:1.5}
+  .bizcycle{font-size:11px;font-weight:800;color:var(--kyoto);text-align:center;background:#faf7ff;
+    border:1px dashed #d9c9ef;border-radius:12px;padding:9px 10px;margin-bottom:14px;line-height:1.6}
+  .scen{background:#fff;border:1px solid var(--line);border-radius:16px;padding:11px 12px;margin-bottom:8px;box-shadow:var(--shadow);border-left:4px solid var(--green)}
+  .scen.s2{border-left-color:var(--amber)}
+  .scen.s3{border-left-color:var(--red)}
+  .scen .sh{display:flex;justify-content:space-between;align-items:baseline}
+  .scen .sh b{font-size:13px}
+  .scen .sh .vd{font-size:10.5px;font-weight:800}
+  .scen .pre{font-size:10px;color:var(--sub);margin-top:2px;line-height:1.45}
+  .scen .sg{display:grid;grid-template-columns:1fr 1fr;gap:5px 10px;margin-top:8px}
+  .scen .sg .si{line-height:1.3}
+  .scen .sg .si small{display:block;font-size:9.5px;color:var(--sub)}
+  .scen .sg .si b{font-size:15px;color:var(--kyoto)}
+  .phaserow{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--line);
+    border-radius:13px;padding:10px 12px;margin-bottom:8px;box-shadow:0 4px 12px rgba(40,20,70,.05)}
+  .phaserow .pn{flex:0 0 auto;font-size:10px;font-weight:900;color:#fff;background:var(--kyoto);border-radius:8px;padding:4px 8px;line-height:1.2;text-align:center}
+  .phaserow .pm{flex:1;line-height:1.4}
+  .phaserow .pm b{font-size:12px}
+  .phaserow .pm .rev{display:inline-block;font-size:9.5px;font-weight:800;color:#9a7b1f;background:#fbf2da;border-radius:999px;padding:2px 8px;margin-left:5px;vertical-align:1px}
+  .phaserow .pm span{display:block;font-size:10.5px;color:var(--sub);margin-top:2px;line-height:1.5}
+  .cmp{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:6px}
+  .cmp .cr{display:grid;grid-template-columns:1fr 52px 60px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);font-size:11px}
+  .cmp .cr:last-child{border-bottom:0}
+  .cmp .cr.head{background:#faf7ff;font-weight:800;color:var(--sub);font-size:10px}
+  .cmp .cr .fx{text-align:center;font-weight:900}
+  .cmp .cr .fx.no{color:#c2bccf}
+  .cmp .cr .fx.tri{color:var(--amber)}
+  .cmp .cr .fx.yes{color:var(--green)}
+  .finblk{background:linear-gradient(140deg,#2c1450,#5b2a86 65%,#8a4fc0);color:#fff;border-radius:18px;padding:15px 14px;margin-bottom:14px;text-align:center}
+  .finblk h3{margin:0 0 4px;font-size:15px}
+  .finblk .fs{font-size:11px;opacity:.85;line-height:1.6;margin-bottom:11px}
+  .finblk .fs b{color:#ffe39a}
+  .finblk .f3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .finblk .f3 .fi{background:rgba(255,255,255,.12);border-radius:12px;padding:9px 6px;line-height:1.35}
+  .finblk .f3 .fi b{display:block;font-size:13px;color:#ffe39a}
+  .finblk .f3 .fi span{font-size:10px;font-weight:700}
 
   /* bottom nav */
   .nav{position:absolute;left:0;right:0;bottom:0;height:64px;background:rgba(255,255,255,.94);
@@ -317,16 +370,16 @@
 <body>
 
   <div class="stage">
-    <h1><b>KGo!</b> × <b>ここさん</b> — 京都・逆張りの旅</h1>
-    <p>提案資料「<b>バリューチェーンの流れを逆転せよ</b>」の<b>体感デモ</b>。<br>
-       RED・Ctripの定番ルートに<b>川上で割り込み</b>、人が集まるほど安くなる「拼団」で穴場へ自発的に分散させ、<b>京都の混雑を一気に解消する</b>日本発アプリ。</p>
-    <span class="pill">📱 スマホ画面そのままのモック ／ 触って動きます</span>
+    <h1><b>京結び</b> <small>きょうむすび</small> — 混雑を、価値創造の入口に変える</h1>
+    <p>京大MBA提案「<b>一発逆転のビジネスモデル 〜京都のオーバーツーリズムに挑む！〜</b>」の<b>体感デモ</b>。<br>
+       REDが決める定番ルートに<b>川上で介入</b>し、<b>逆DP</b>（人が集まるほど安くなる拼団）で穴場へ自然に分散——<b>京都の混雑を一気に解消</b>する日本発アプリ。</p>
+    <span class="pill">📱 スマホ画面そのままのモック ／ 触って動きます ／ 旧称「KGo!」→「京結び」に改称</span>
     <div class="rail" id="rail">
       <span class="step on" data-tab="home" onclick="go('home')">①<b>発見</b> 穴場提案</span><span class="arr">→</span>
       <span class="step" data-tab="itin" onclick="go('itin')">②<b>旅程</b> 川上介入</span><span class="arr">→</span>
-      <span class="step" data-tab="pin" onclick="go('pin')">③<b>拼団</b> 0円拡散</span><span class="arr">→</span>
+      <span class="step" data-tab="pin" onclick="go('pin')">③<b>拼団</b> 逆DPで¥0</span><span class="arr">→</span>
       <span class="step" data-tab="map" onclick="go('map')">④<b>分散</b> 混雑解消</span><span class="arr">→</span>
-      <span class="step" data-tab="rev" onclick="go('rev')">⑤<b>逆転</b> 混雑を解消</span>
+      <span class="step" data-tab="rev" onclick="go('rev')">⑤<b>逆転</b> 事業モデル</span>
     </div>
   </div>
 
@@ -341,7 +394,7 @@
       <!-- app header -->
       <div class="apphead">
         <div class="row1">
-          <div class="brand">KGo!<span class="ko" data-i18n="kokosan">ここさん体験</span></div>
+          <div class="brand">京結び<span class="ko" data-i18n="brand_sub">きょうむすび</span></div>
           <div class="lang">
             <button id="jp" class="on" onclick="setLang('ja')">日本語</button>
             <button id="zh" onclick="setLang('zh')">中文</button>
@@ -363,13 +416,20 @@
           <div class="gauge"><i>92%</i></div>
           <div class="txt">
             <b data-i18n="crowd_t">いまの金閣寺：激混み</b>
-            <span data-i18n="crowd_s">市バス205系統も満員 ・ 60分待ち</span>
+            <span data-i18n="crowd_s">1日12,000人が入場 ・ 市バスは平均42分待ち</span>
           </div>
           <div class="arrow">→<br><span data-i18n="crowd_a">穴場へ</span></div>
         </div>
 
+        <div class="stats3">
+          <div class="st"><b>42<small style="font-size:10px">分</small></b><span data-i18n="st1">市バス<br>平均待ち時間</span></div>
+          <div class="st"><b>12,000<small style="font-size:10px">人</small></b><span data-i18n="st2">金閣寺<br>1日の入場者数</span></div>
+          <div class="st"><b>82<small style="font-size:10px">点</small></b><span data-i18n="st3">観光満足度指数<br>（100点換算）</span></div>
+        </div>
+        <div class="notesmall" data-i18n="st_note">出典: 京都市観光総合調査(R7)。混雑を理由に「残念」と回答した割合は 32.9%→38.5%（R6→R7）と上昇傾向。</div>
+
         <div class="lede" data-i18n="home_lede" data-i18n-html="1">
-          RED・Ctripなら全員が同じ定番3スポットへ。<b>ここさん</b>は、あなたの条件に合わせて「混雑ゼロの穴場体験」だけを提案します。
+          RED・Ctripなら全員が同じ定番3スポットへ。<b>京結び</b>は旅行前の意思決定に働きかけ、穴場体験を「自然に選ばれる選択肢」に変えます。
         </div>
 
         <div class="sechead">
@@ -382,11 +442,11 @@
       <!-- ===== ② ITINERARY / 旅程 ===== -->
       <div class="body view" id="v-itin">
         <div class="lede" data-i18n="itin_lede" data-i18n-html="1">
-          オーバーツーリズムの川上は<b>「旅程設計」</b>。REDの定番ルートが混雑を固定する。<b>ここさん</b>がその一日を丸ごと設計し直す——同じ予算・同じ二人でも、体験はここまで変わる。
+          オーバーツーリズムの川上は<b>「旅程設計」</b>。REDの定番ルートが混雑を固定する。<b>京結び</b>がその一日を丸ごと設計し直す——同じ予算・同じ二人でも、体験はここまで変わる。
         </div>
         <div class="switch bad" id="dayswitch">
           <button id="d-bad" class="on" onclick="setDay('bad')" data-i18n="day_bad">❌ REDの定番ルート</button>
-          <button id="d-good" onclick="setDay('good')" data-i18n="day_good">✅ ここさんの旅程</button>
+          <button id="d-good" onclick="setDay('good')" data-i18n="day_good">✅ 京結びの旅程</button>
         </div>
         <div class="pnote" id="pnote" style="display:none"></div>
         <div class="rednote" id="redbanner" style="display:none"></div>
@@ -398,11 +458,11 @@
       <!-- ===== ③ 拼团 / PINTUAN ===== -->
       <div class="body view" id="v-pin">
         <div class="lede" data-i18n="pin_lede" data-i18n-html="1">
-          <b>拼団（ピントゥアン）</b>＝みんなで集まるほど安くなる共同購入。<b>20人で開催確定／50人で¥0</b>。「行きたいから人を集める」——旅行者自身が広告費ゼロの集客エンジンになる。
+          <b>逆DP</b>＝人が集まるほど安くなる共同購入（<b>拼団</b>）。<b>20人で開催確定／50人で¥0</b>。「行きたいから人を集める」——旅行者自身が広告費ゼロの集客エンジンになる。
         </div>
         <div class="pintuan-hero">
-          <div class="ti" id="phTitle">大覚寺 早朝の貸切＋竹林撮影</div>
-          <div class="su" id="phSub">嵐山の奥・混雑ゼロ ／ 拼団参加者だけの特別開門</div>
+          <div class="ti" id="phTitle">大覚寺 朝7時の貸切体験</div>
+          <div class="su" id="phSub">拼団参加者だけの特別開門 ／ 混雑ゼロ</div>
           <div class="bigprice" id="bigprice">
             <span class="yen">¥</span><span class="num" id="curPrice">3,200</span>
             <span class="was">¥8,000</span>
@@ -425,15 +485,15 @@
           <button class="ghost" onclick="toggleAuto()" id="autoBtn">▶ <span data-i18n="auto">自動</span></button>
         </div>
         <div class="loopnote">
-          <span data-i18n="loop1">あなたが誘うと、その友達がまた友達を誘う。</span><br>
-          <b data-i18n="loop2">広告費ゼロで参加者が自動的に集まり、価格が¥0へ近づく。</b>
+          <span data-i18n="loop1">50人達成で¥0 → WeChatで「一緒に行こう」と友人へ → 次の50人が自動的に集まる。</span><br>
+          <b data-i18n="loop2">旅行者が集客エンジンになり、広告費ゼロで拼団が自走する。</b>
         </div>
       </div>
 
       <!-- ===== ④ MAP / 分散 ===== -->
       <div class="body view" id="v-map">
         <div class="lede" data-i18n="map_lede" data-i18n-html="1">
-          拼団割引＋穴場体験で、近隣の穴場が<b>「選ばれる場所」</b>に変わる。結果、少ない地下鉄・バスへの集中が解け、混雑が市内全域へ自然に散る。
+          逆DPの割引＋穴場体験で、近隣の穴場が<b>「選ばれる場所」</b>に変わる。結果、少ない地下鉄・バスへの集中が解け、混雑が市内全域へ自然に散る。
         </div>
         <div class="sechead">
           <h2 data-i18n="map_h">混雑の分散</h2>
@@ -441,7 +501,7 @@
         </div>
         <div class="switch">
           <button id="sw-before" class="on" onclick="setMap('before')" data-i18n="before">定番ルート（今）</button>
-          <button id="sw-after" onclick="setMap('after')" data-i18n="after">KGo!で分散</button>
+          <button id="sw-after" onclick="setMap('after')" data-i18n="after">京結びで分散</button>
         </div>
         <div class="map" id="map"></div>
         <div class="maplegend">
@@ -456,7 +516,7 @@
       <!-- ===== ⑤ REVERSAL / 逆転 ===== -->
       <div class="body view" id="v-rev">
         <div class="lede" data-i18n="rev_lede" data-i18n-html="1">
-          京都の混雑は、<b>全員が同じ定番ルートに流れ込む</b>ことで生まれる。KGo!×ここさんは、その<b>流れ自体を逆転</b>させ——一人ひとりを違う穴場へ導いて、<b>京都の混雑を一気に解消</b>する。これが「一発逆転」。
+          京都の混雑は、<b>全員が同じ定番ルートに流れ込む</b>ことで生まれる。<b>京結び</b>はその流れ自体を逆転させ、<b>混雑を価値創造の入口に変える</b>。構造的な非対称性を破り、ゲームのルールを変える——これが「一発逆転」。
         </div>
 
         <div class="vctitle bad"><span class="lampe">❌</span><span data-i18n="rev_before">現状：全員が同じ定番に流れ込み、混雑が増幅する</span></div>
@@ -478,10 +538,27 @@
           <small id="kpiCase">モデルケース①</small>
         </div>
         <div class="kpigrid" id="kpigrid"></div>
+        <div class="notesmall" data-i18n="kpi_note">※ 各数値は京都市全体の実績値ではなく、アプリ利用者の対象行程内KPI（フェルミ推定による予測値）。全市への波及はアプリ採用率に比例します。</div>
+
+        <div class="sechead"><h2 data-i18n="cmp_h">既存モデルとの違い</h2><small data-i18n="cmp_s">統合機能という空白地帯</small></div>
+        <div class="cmp" id="cmpTable"></div>
+        <div class="notesmall" data-i18n="cmp_note">※「既存」= RED/Ctrip・Google Maps・Airbnb体験・TripAdvisorのうち最も近い機能の評価。「日本体験特化×逆DP×分散誘導」を統合するサービスは存在しない。</div>
+
+        <div class="sechead"><h2 data-i18n="biz_h">収益モデル</h2><small data-i18n="biz_s">誰がどこで払うか</small></div>
+        <div class="bizwrap" id="bizPay"></div>
+        <div class="bizcycle" id="bizCycle"></div>
+
+        <div class="sechead"><h2 data-i18n="scen_h">財務感度分析</h2><small data-i18n="scen_s">3シナリオで成立を検証</small></div>
+        <div id="scenList"></div>
+        <div class="notesmall" data-i18n="scen_note">前提: Phase 3（24ヶ月目〜）の年間数値。収益2本柱=①旅行者アプリ課金（旅行単位500円）②事業者手数料（予約完結額×10%）。「旅行者数」は月間フロー、「事業者数」は累計提携数。</div>
+
+        <div class="sechead"><h2 data-i18n="road_h">収益化ロードマップ</h2><small data-i18n="road_s">REDの軌跡をなぞる3フェーズ</small></div>
+        <div id="roadList"></div>
+        <div class="notesmall" data-i18n="road_note">REDは「見せる」、京結びは「届ける」——REDに乗って、REDを超える。初回の50人は京大MBAの人脈×提携寺社の既存顧客で確保し、以降は拼団が自走する。</div>
 
         <div class="data-sov">
           <h3 data-i18n="ds_h">混雑解消を加速するデータ循環</h3>
-          <p data-i18n="ds_p">貯まった行動データが、混雑予測と「分散の精度」を継続的に高める。使うほど混雑解消が進む。</p>
+          <p data-i18n="ds_p">訪日行動データが日本側に蓄積され、混雑予測と「分散の精度」を継続的に高める。蓄積するほど模倣困難な資産になり、使うほど混雑解消が進む。</p>
           <div class="drow"><div class="ic">🧭</div><div class="dn" data-i18n="ds1">行動データ<small data-i18n="ds1s">いつ・どこへ・誰と</small></div><div class="dv">＋蓄積</div></div>
           <div class="drow"><div class="ic">🎟️</div><div class="dn" data-i18n="ds2">拼団データ<small data-i18n="ds2s">グループ形成パターン</small></div><div class="dv">＋蓄積</div></div>
           <div class="drow"><div class="ic">🍵</div><div class="dn" data-i18n="ds3">体験データ<small data-i18n="ds3s">予約・評価・季節性</small></div><div class="dv">＋蓄積</div></div>
@@ -491,13 +568,15 @@
         <div class="flywheel">
           <h3 data-i18n="fw_h">正の循環（フライホイール）</h3>
           <div class="ring">
-            <b data-i18n="fw1">体験で上流に介入</b> →
-            <b data-i18n="fw2">拼団で集客が無料化</b> →
+            <b data-i18n="fw1">体験で川上に介入</b> →
+            <b data-i18n="fw2">逆DPで集客が無料化</b> →
             <b data-i18n="fw3">自然に分散</b> →
-            <b data-i18n="fw4">データが貯まる</b> →
-            <span data-i18n="fw5">推薦と分散がさらに賢くなる</span> ↻
+            <b data-i18n="fw4">「また来たい」投稿が次の旅行者を誘導</b> →
+            <span data-i18n="fw5">データが貯まり、推薦と分散がさらに賢くなる</span> ↻
           </div>
         </div>
+
+        <div class="finblk" id="finBlk"></div>
       </div>
 
       <!-- toast -->
@@ -525,85 +604,105 @@
   </div>
 
   <div class="footnote">
-    京大MBA・経営戦略 Group F／京都在住MBAによる当事者提案「バリューチェーンの流れを逆転せよ」より作成。<br>
-    数値・体験はモデルケースに基づくデモ表現です（<b>Fictional / 提案イメージ</b>）。実在の予約・決済は行いません。
+    京大MBA・経営戦略 Group F の提案「一発逆転のビジネスモデル 〜京都のオーバーツーリズムに挑む！〜」（京結び／旧称 KGo!）より作成。<br>
+    数値・体験は提案資料のモデルケース・フェルミ推定に基づくデモ表現です（<b>Fictional / 提案イメージ</b>）。実在の予約・決済は行いません。
   </div>
 
 <script>
 /* ===================== i18n ===================== */
 const I18N = {
   ja:{
-    kokosan:"ここさん体験", edit:"変更",
+    brand_sub:"きょうむすび", edit:"変更",
     persona_couple:"カップル旅", persona_family:"家族旅", persona_solo:"ひとり旅", persona_friends:"友達グループ",
     persona_sub:"予算 15万円 ・ 朝型 ・ はじめての京都",
-    crowd_t:"いまの金閣寺：激混み", crowd_s:"市バス205系統も満員 ・ 60分待ち", crowd_a:"穴場へ",
-    home_lede:"RED・Ctripなら全員が同じ<b>定番3スポット</b>へ。<b>ここさん</b>が川上で割り込み、あなたに合う「混雑ゼロの穴場体験」だけを提案する。",
+    crowd_t:"いまの金閣寺：激混み", crowd_s:"1日12,000人が入場 ・ 市バスは平均42分待ち", crowd_a:"穴場へ",
+    st1:"市バス\n平均待ち時間", st2:"金閣寺\n1日の入場者数", st3:"観光満足度指数\n（100点換算）",
+    st_note:"出典: 京都市観光総合調査(R7)。混雑を理由に「残念」と回答した割合は 32.9%→38.5%（R6→R7）と上昇傾向。",
+    home_lede:"RED・Ctripなら全員が同じ<b>定番3スポット</b>へ。<b>京結び</b>は旅行前の意思決定に働きかけ、穴場体験を<b>「自然に選ばれる選択肢」</b>に変える。",
     home_h:"あなただけの京都", home_s:"定番じゃない・混雑ゼロ",
-    itin_lede:"オーバーツーリズムの川上は<b>「旅程設計」</b>。REDの定番ルートが混雑を固定する。<b>ここさん</b>がその一日を丸ごと設計し直す——同じ予算・同じ二人でも、体験はここまで変わる。",
-    day_bad:"❌ REDの定番ルート", day_good:"✅ ここさんの旅程",
-    pin_lede:"<b>拼団（ピントゥアン）</b>＝みんなで集まるほど安くなる共同購入。<b>20人で開催確定／50人で¥0</b>。「行きたいから人を集める」——旅行者自身が広告費ゼロの集客エンジンになる。",
-    map_lede:"拼団割引＋穴場体験で、近隣の穴場が<b>「選ばれる場所」</b>に変わる。少ない地下鉄・バスへの集中が解け、混雑が市内全域へ自然に散る。",
-    rev_lede:"京都の混雑は、<b>全員が同じ定番ルートに流れ込む</b>ことで生まれる。KGo!×ここさんは、その<b>流れ自体を逆転</b>させ——一人ひとりを違う穴場へ導いて、<b>京都の混雑を一気に解消</b>する。これが「一発逆転」。",
+    itin_lede:"オーバーツーリズムの川上は<b>「旅程設計」</b>。REDの定番ルートが混雑を固定する。<b>京結び</b>がその一日を丸ごと設計し直す——同じ予算・同じ二人でも、体験はここまで変わる。",
+    day_bad:"❌ REDの定番ルート", day_good:"✅ 京結びの旅程",
+    pin_lede:"<b>逆DP</b>＝人が集まるほど安くなる共同購入（<b>拼団</b>）。<b>20人で開催確定／50人で¥0</b>。「行きたいから人を集める」——旅行者自身が広告費ゼロの集客エンジンになる。",
+    map_lede:"逆DPの割引＋穴場体験で、近隣の穴場が<b>「選ばれる場所」</b>に変わる。少ない地下鉄・バスへの集中が解け、混雑が市内全域へ自然に散る。",
+    rev_lede:"京都の混雑は、<b>全員が同じ定番ルートに流れ込む</b>ことで生まれる。<b>京結び</b>はその流れ自体を逆転させ、<b>混雑を価値創造の入口に変える</b>。構造的な非対称性を破り、ゲームのルールを変える——これが「一発逆転」。",
     people_now:"人が参加中", nin:"人", kaisai:"開催",
     invite:"友達を誘って参加", auto:"自動",
-    loop1:"あなたが3人誘えば、その3人がまた3人を誘う（1→3→9…）。",
-    loop2:"広告費ゼロで参加者が自動的に集まり、価格が¥0へ近づく。",
-    map_h:"混雑の分散", map_s:"スイッチで切替", before:"定番ルート（今）", after:"KGo!で分散",
+    loop1:"50人達成で¥0 → WeChatで「一緒に行こう」と友人へ → 次の50人が自動的に集まる。",
+    loop2:"旅行者が集客エンジンになり、広告費ゼロで拼団が自走する。",
+    map_h:"混雑の分散", map_s:"スイッチで切替", before:"定番ルート（今）", after:"京結びで分散",
     legend_red:"過密スポット", legend_green:"穴場（分散先）",
     map_cap_b:"全員がRED・Ctripの定番3スポットへ。少ない地下鉄とバスに需要が集中し、混雑が固定される。",
-    map_cap_a:"体験＋拼団割引で穴場が「選ばれる場所」に。蓄積した行動データで「来る前」に分散へ誘導し、需要が市内全域へ散る。",
+    map_cap_a:"体験＋逆DPの割引で穴場が「選ばれる場所」に。蓄積した行動データで「来る前」に分散へ誘導し、需要が市内全域へ散る。",
     rev_before:"現状：全員が同じ定番に流れ込み、混雑が増幅する", rev_after:"逆転後：流れが分散に変わり、混雑が一気に解ける",
     flip:"流れを逆転させる",
     rev_result:"流れを逆転させると：<b>①一人ひとりに最適化</b> → <b>②自然に分散</b> → <b>③京都の混雑が一気に解消</b> → <b>④体験が良くなりさらに分散</b>（正の循環）。",
     imp_h:"この旅が変えること",
-    ds_h:"混雑解消を加速するデータ循環", ds_p:"貯まった行動データが、混雑予測と「分散の精度」を継続的に高める。使うほど混雑解消が進む。",
+    kpi_note:"※ 各数値は京都市全体の実績値ではなく、アプリ利用者の対象行程内KPI（フェルミ推定による予測値）。全市への波及はアプリ採用率に比例します。",
+    cmp_h:"既存モデルとの違い", cmp_s:"統合機能という空白地帯",
+    cmp_note:"※「既存」= RED/Ctrip・Google Maps・Airbnb体験・TripAdvisorのうち最も近い機能の評価。「日本体験特化×逆DP×分散誘導」を統合するサービスは存在しない。",
+    biz_h:"収益モデル", biz_s:"誰がどこで払うか",
+    scen_h:"財務感度分析", scen_s:"3シナリオで成立を検証",
+    scen_note:"前提: Phase 3（24ヶ月目〜）の年間数値。収益2本柱=①旅行者アプリ課金（旅行単位500円）②事業者手数料（予約完結額×10%）。「旅行者数」は月間フロー、「事業者数」は累計提携数。",
+    road_h:"収益化ロードマップ", road_s:"REDの軌跡をなぞる3フェーズ",
+    road_note:"REDは「見せる」、京結びは「届ける」——REDに乗って、REDを超える。初回の50人は京大MBAの人脈×提携寺社の既存顧客で確保し、以降は拼団が自走する。",
+    ds_h:"混雑解消を加速するデータ循環", ds_p:"訪日行動データが日本側に蓄積され、混雑予測と「分散の精度」を継続的に高める。蓄積するほど模倣困難な資産になり、使うほど混雑解消が進む。",
     ds1:"行動データ", ds1s:"いつ・どこへ・誰と", ds2:"拼団データ", ds2s:"グループ形成パターン",
     ds3:"体験データ", ds3s:"予約・評価・季節性", ds4:"UGCデータ", ds4s:"口コミ・拡散経路",
     fw_h:"正の循環（フライホイール）",
-    fw1:"体験で上流に介入", fw2:"拼団で集客が無料化", fw3:"自然に分散", fw4:"データが貯まる", fw5:"推薦と分散がさらに賢くなる",
+    fw1:"体験で川上に介入", fw2:"逆DPで集客が無料化", fw3:"自然に分散", fw4:"「また来たい」投稿が次の旅行者を誘導", fw5:"データが貯まり、推薦と分散がさらに賢くなる",
     sheet_h:"誰と来た？", sheet_p:"同じ京都でも、最適な穴場と体験は人によって違う。", sheet_done:"この設定で見る",
     nav_home:"発見", nav_itin:"旅程", nav_pin:"拼団", nav_map:"分散", nav_rev:"逆転",
     join:"参加する", open_at:"開催", free:"無料", recruit:"募集中", confirmed:"開催確定",
     toast_join:"人が参加しました！", toast_free:"🎉 50人達成！この体験が ¥0 になりました",
     case1:"モデルケース①（カップル）", case2:"モデルケース②（家族連れ）",
-    pnote_other:"※ モデルケースはカップル／家族で用意。あなたの条件でここさんが同じ要領で設計します。",
+    pnote_other:"※ モデルケースはカップル／家族で用意。あなたの条件でも京結びが同じ要領で設計します。",
     msg_open:n=>`あと${n}人で開催確定`, msg_free:n=>`あと${n}人で ¥0`, msg_done:"50人達成・無料開催！",
   },
   zh:{
-    kokosan:"Kokosan体验", edit:"修改",
+    brand_sub:"Kyomusubi", edit:"修改",
     persona_couple:"情侣游", persona_family:"家庭游", persona_solo:"一人游", persona_friends:"朋友团",
-    persona_sub:"预算 1.5万元 ・ 早起型 ・ 初次京都",
-    crowd_t:"此刻金阁寺：极度拥挤", crowd_s:"205路市巴士满员 ・ 排队60分钟", crowd_a:"去冷门",
-    home_lede:"用RED・携程，所有人都涌向同样的<b>三大打卡点</b>。<b>Kokosan</b>从上游切入，只为你推荐「零拥挤的冷门体验」。",
+    persona_sub:"预算 15万日元 ・ 早起型 ・ 初次京都",
+    crowd_t:"此刻金阁寺：极度拥挤", crowd_s:"单日入场12,000人 ・ 市巴士平均等候42分钟", crowd_a:"去冷门",
+    st1:"市巴士\n平均等候时间", st2:"金阁寺\n单日入场人数", st3:"观光满意度指数\n（百分制）",
+    st_note:"出处: 京都市观光综合调查(R7)。因拥挤而「失望」的比例 32.9%→38.5%（R6→R7），持续上升。",
+    home_lede:"用RED・携程，所有人都涌向同样的<b>三大打卡点</b>。<b>京結び</b>介入旅行前的决策，让冷门体验成为<b>「被自然选中的选项」</b>。",
     home_h:"专属你的京都", home_s:"非打卡・零拥挤",
-    itin_lede:"过度旅游的上游是<b>「行程规划」</b>。RED的固定路线把拥挤锁死。<b>Kokosan</b>重新设计你的一整天——同样的预算、同样的两个人，体验天差地别。",
-    day_bad:"❌ RED打卡路线", day_good:"✅ Kokosan行程",
-    pin_lede:"<b>拼团</b>＝人越多越便宜的团购。<b>满20人开团／满50人变¥0</b>。「因想去而拉人」——旅行者自己成为零广告费的获客引擎。",
-    map_lede:"拼团折扣＋冷门体验，让附近冷门景点成为<b>「被选中的地方」</b>。稀少的地铁・公交不再被挤爆，拥挤自然散向全城。",
-    rev_lede:"京都的拥挤，源于<b>所有人都涌入同样的打卡路线</b>。KGo!×Kokosan把<b>这股人流逆转</b>——把每个人引向不同的冷门景点，<b>一举化解京都的拥挤</b>。这就是「一发逆转」。",
+    itin_lede:"过度旅游的上游是<b>「行程规划」</b>。RED的固定路线把拥挤锁死。<b>京結び</b>重新设计你的一整天——同样的预算、同样的两个人，体验天差地别。",
+    day_bad:"❌ RED打卡路线", day_good:"✅ 京結び行程",
+    pin_lede:"<b>逆向动态定价</b>＝人越多越便宜的团购（<b>拼团</b>）。<b>满20人开团／满50人变¥0</b>。「因想去而拉人」——旅行者自己成为零广告费的获客引擎。",
+    map_lede:"逆向定价折扣＋冷门体验，让附近冷门景点成为<b>「被选中的地方」</b>。稀少的地铁・公交不再被挤爆，拥挤自然散向全城。",
+    rev_lede:"京都的拥挤，源于<b>所有人都涌入同样的打卡路线</b>。<b>京結び</b>把这股人流逆转，<b>让拥挤变成价值创造的入口</b>。打破结构性不对称、改变游戏规则——这就是「一发逆转」。",
     people_now:"人参与中", nin:"人", kaisai:"开团",
     invite:"邀请朋友拼团", auto:"自动",
-    loop1:"你拉3人，那3人又各拉3人（1→3→9…）。",
-    loop2:"广告费为零，参与者自动聚集，价格趋近 ¥0。",
-    map_h:"拥挤分流", map_s:"点击切换", before:"打卡路线（现在）", after:"KGo!分流后",
+    loop1:"满50人变¥0 → 在微信喊朋友「一起去」 → 下一批50人自动聚集。",
+    loop2:"旅行者成为获客引擎，拼团以零广告费自行运转。",
+    map_h:"拥挤分流", map_s:"点击切换", before:"打卡路线（现在）", after:"京結び分流后",
     legend_red:"过密景点", legend_green:"冷门（分流先）",
     map_cap_b:"所有人涌向RED・携程的三大打卡点。需求集中于稀少的地铁与公交，拥挤被固化。",
-    map_cap_a:"体验＋拼团折扣让冷门景点成为「被选中的地方」。用积累的行为数据在「到达前」引导分流，需求散向全城。",
+    map_cap_a:"体验＋逆向定价折扣让冷门景点成为「被选中的地方」。用积累的行为数据在「到达前」引导分流，需求散向全城。",
     rev_before:"现状：所有人涌入同样的打卡点，拥挤不断放大", rev_after:"逆转后：人流转为分散，拥挤一举缓解",
     flip:"逆转人流",
     rev_result:"逆转人流后：<b>①因人而异的最优行程</b> → <b>②自然分流</b> → <b>③京都的拥挤一举化解</b> → <b>④体验更好、进一步分流</b>（正向循环）。",
     imp_h:"这趟旅行带来的改变",
-    ds_h:"加速化解拥挤的数据循环", ds_p:"积累的行为数据，持续提升拥挤预测与「分流精度」。越用，越能化解拥挤。",
+    kpi_note:"※ 各数值并非京都市全域实绩，而是App用户行程内的KPI（基于费米推算的预测值）。对全市的波及与App采用率成正比。",
+    cmp_h:"与现有模式的区别", cmp_s:"整合功能的空白地带",
+    cmp_note:"※「现有」= RED/携程・Google Maps・Airbnb体验・TripAdvisor中最接近功能的评价。整合「日本体验特化×逆向定价×分流引导」的服务并不存在。",
+    biz_h:"收益模式", biz_s:"谁在何处付费",
+    scen_h:"财务敏感性分析", scen_s:"以3种情景验证成立性",
+    scen_note:"前提: Phase 3（第24个月起）的年度数值。收益两大支柱=①旅行者App收费（每次旅行500日元）②商家佣金（预订完成额×10%）。「旅行者数」为月度流量，「商家数」为累计签约数。",
+    road_h:"收益化路线图", road_s:"沿RED轨迹的3个阶段",
+    road_note:"RED负责「展示」，京結び负责「送达」——借RED之势，超越RED。首批50人由京大MBA人脉×签约寺社的既有客源确保，此后拼团自行运转。",
+    ds_h:"加速化解拥挤的数据循环", ds_p:"访日行为数据积累在日本一侧，持续提升拥挤预测与「分流精度」。越积累越难以被模仿，越使用越能化解拥挤。",
     ds1:"行为数据", ds1s:"何时・去哪・与谁", ds2:"拼团数据", ds2s:"团体形成模式",
     ds3:"体验数据", ds3s:"预订・评价・季节性", ds4:"UGC数据", ds4s:"口碑・传播路径",
     fw_h:"正向循环（飞轮）",
-    fw1:"以体验介入上游", fw2:"拼团让获客免费", fw3:"自然分流", fw4:"数据积累", fw5:"推荐与分流更聪明",
+    fw1:"以体验介入上游", fw2:"逆向定价让获客免费", fw3:"自然分流", fw4:"「还想再来」的帖子引导下一批旅行者", fw5:"数据积累，推荐与分流更聪明",
     sheet_h:"和谁一起来？", sheet_p:"同样的京都，最佳冷门与体验因人而异。", sheet_done:"按此设置查看",
     nav_home:"发现", nav_itin:"行程", nav_pin:"拼团", nav_map:"分流", nav_rev:"逆转",
     join:"参加", open_at:"开团", free:"免费", recruit:"招募中", confirmed:"开团确定",
     toast_join:"人加入了拼团！", toast_free:"🎉 满50人！此体验已变为 ¥0",
     case1:"模型案例①（情侣）", case2:"模型案例②（家庭）",
-    pnote_other:"※ 模型案例为情侣／家庭。Kokosan会以同样方式为你的条件量身设计。",
+    pnote_other:"※ 模型案例为情侣／家庭。京結び会以同样方式为你的条件量身设计。",
     msg_open:n=>`还差${n}人开团`, msg_free:n=>`还差${n}人变 ¥0`, msg_done:"满50人・免费开团！",
   }
 };
@@ -613,20 +712,24 @@ const t=k=>I18N[lang][k];
 /* ===================== experiences (feed) ===================== */
 const EXPS = [
   {id:'daikakuji', emoji:'🎋', grad:'linear-gradient(135deg,#3c7a4e,#7bbf8a)',
-   t:{ja:'大覚寺 早朝の貸切＋竹林撮影',zh:'大觉寺 早晨包场＋竹林拍摄'},
+   t:{ja:'大覚寺 朝7時の貸切＋竹林撮影',zh:'大觉寺 早7点包场＋竹林拍摄'},
    area:{ja:'嵐山の奥',zh:'岚山深处'}, alt:{ja:'← 嵐山・竹林の代わりに',zh:'← 替代岚山・竹林'},
    base:8000, n:18, persona:['couple','solo','friends','family']},
   {id:'ninnaji', emoji:'⛩️', grad:'linear-gradient(135deg,#8a4fc0,#c79be8)',
    t:{ja:'仁和寺 早朝の貸切ツアー',zh:'仁和寺 早晨包场游览'},
    area:{ja:'北山エリア',zh:'北山区'}, alt:{ja:'← 金閣寺の代わりに',zh:'← 替代金阁寺'},
    base:6000, n:31, persona:['couple','family','friends','solo']},
+  {id:'kacchu', emoji:'🛡️', grad:'linear-gradient(135deg,#7a3348,#c06a84)',
+   t:{ja:'甲冑の着付け 子ども体験',zh:'儿童甲胄穿着体验'},
+   area:{ja:'中心部',zh:'市中心'}, alt:{ja:'★ 年齢別の体験設計',zh:'★ 按年龄设计'},
+   base:6000, n:14, persona:['family']},
   {id:'washi', emoji:'🧪', grad:'linear-gradient(135deg,#c8902a,#eccb7a)',
    t:{ja:'和紙を漉く 親子の手しごと工房',zh:'亲手抄和纸 亲子手工坊'},
    area:{ja:'中心部',zh:'市中心'}, alt:{ja:'★ 子供が主役の体験',zh:'★ 孩子当主角'},
    base:5000, n:12, persona:['family']},
-  {id:'fushimi', emoji:'🍵', grad:'linear-gradient(135deg,#6b3fa0,#a06fd0)',
-   t:{ja:'伏見の老舗で ペア和食コース',zh:'伏见百年老店 双人怀石'},
-   area:{ja:'伏見エリア',zh:'伏见区'}, alt:{ja:'← 錦市場の食べ歩きの代わりに',zh:'← 替代锦市场'},
+  {id:'nanzenji', emoji:'🍵', grad:'linear-gradient(135deg,#6b3fa0,#a06fd0)',
+   t:{ja:'南禅寺 水路閣そばの食体験',zh:'南禅寺 水路阁旁的美食体验'},
+   area:{ja:'岡崎・南禅寺',zh:'冈崎・南禅寺'}, alt:{ja:'← 錦市場の食べ歩きの代わりに',zh:'← 替代锦市场'},
    base:12000, n:24, persona:['couple','solo']},
   {id:'adashino', emoji:'🏮', grad:'linear-gradient(135deg,#4a5e8a,#8aa0c8)',
    t:{ja:'化野念仏寺 静寂のさんぽ',zh:'化野念佛寺 静谧漫步'},
@@ -635,57 +738,57 @@ const EXPS = [
 ];
 
 const PERSONAS = {
-  couple:{av:'👫', name:'persona_couple', case:'case1', sub:{ja:'予算 15万円 ・ 朝型 ・ はじめての京都',zh:'预算 1.5万元 ・ 早起型 ・ 初次京都'}},
-  family:{av:'👨‍👩‍👧‍👦', name:'persona_family', case:'case2', sub:{ja:'予算 50万円 ・ 子供8歳/12歳 ・ 文化体験重視',zh:'预算 3万元 ・ 孩子8/12岁 ・ 注重文化体验'}},
-  solo:{av:'🚶', name:'persona_solo', case:'case1', sub:{ja:'予算 8万円 ・ 写真好き ・ 静かな場所',zh:'预算 8千元 ・ 爱摄影 ・ 偏好安静'}},
-  friends:{av:'👯', name:'persona_friends', case:'case1', sub:{ja:'予算 各10万円 ・ 4人 ・ 体験＆映え',zh:'预算 各1万元 ・ 4人 ・ 体验＆出片'}},
+  couple:{av:'👫', name:'persona_couple', case:'case1', sub:{ja:'予算 15万円 ・ 朝型 ・ はじめての京都',zh:'预算 15万日元 ・ 早起型 ・ 初次京都'}},
+  family:{av:'👨‍👩‍👧‍👦', name:'persona_family', case:'case2', sub:{ja:'子供8歳/12歳 ・ 文化体験重視',zh:'孩子8/12岁 ・ 注重文化体验'}},
+  solo:{av:'🚶', name:'persona_solo', case:'case1', sub:{ja:'予算 8万円 ・ 写真好き ・ 静かな場所',zh:'预算 8万日元 ・ 爱摄影 ・ 偏好安静'}},
+  friends:{av:'👯', name:'persona_friends', case:'case1', sub:{ja:'予算 各10万円 ・ 4人 ・ 体験＆映え',zh:'预算 各10万日元 ・ 4人 ・ 体验＆出片'}},
 };
 let persona='couple';
 
-/* ===================== KPIs (model cases) ===================== */
+/* ===================== KPIs (model cases / v48 S10・S15) ===================== */
 const KPIS = {
   couple:[
-    {k:{ja:'消費単価',zh:'消费单价'}, v:'+29%', cls:'up'},
+    {k:{ja:'旅行者消費単価',zh:'旅行者消费单价'}, v:{ja:'最大+29%',zh:'最高+29%'}, cls:'up'},
     {k:{ja:'体験系の比率',zh:'体验类占比'}, v:'35%', from:{ja:'← 5%',zh:'← 5%'}, cls:'up'},
-    {k:{ja:'バス利用',zh:'公交使用'}, v:'−80%', cls:'down'},
-    {k:{ja:'混雑スポット集中',zh:'拥挤景点集中'}, v:'−60%', cls:'down'},
+    {k:{ja:'市バス集中',zh:'市巴士集中'}, v:{ja:'最大−80%',zh:'最高−80%'}, cls:'down'},
+    {k:{ja:'定番スポット集中',zh:'打卡景点集中'}, v:{ja:'最大−60%',zh:'最高−60%'}, cls:'down'},
   ],
   family:[
-    {k:{ja:'消費達成率',zh:'消费完成率'}, v:'130%', from:{ja:'← 60%',zh:'← 60%'}, cls:'up'},
-    {k:{ja:'子供の体験参加',zh:'儿童体验参与'}, v:'90%', from:{ja:'← 5%',zh:'← 5%'}, cls:'up'},
-    {k:{ja:'疲弊キャンセル',zh:'疲惫取消'}, v:{ja:'ゼロ',zh:'归零'}, cls:'down'},
-    {k:{ja:'混雑分散',zh:'拥挤分流'}, v:{ja:'自然に↑',zh:'自然↑'}, cls:'flat'},
+    {k:{ja:'体験消費比率',zh:'体验消费比率'}, v:{ja:'約9%',zh:'约9%'}, from:{ja:'← 約6%',zh:'← 约6%'}, cls:'up'},
+    {k:{ja:'子供の体験参加率',zh:'儿童体验参与率'}, v:'9%', from:{ja:'← 5%',zh:'← 5%'}, cls:'up'},
+    {k:{ja:'定番スポット集中',zh:'打卡景点集中'}, v:{ja:'最大−60%',zh:'最高−60%'}, cls:'down'},
+    {k:{ja:'市バス集中',zh:'市巴士集中'}, v:{ja:'最大−80%',zh:'最高−80%'}, cls:'down'},
   ],
 };
 KPIS.solo = KPIS.couple; KPIS.friends = KPIS.couple;
 
-/* ===================== itineraries (旅程) ===================== */
+/* ===================== itineraries (旅程 / v48 S10 CASE1・CASE2) ===================== */
 const ITINS = {
   couple:{
     bad:{
       label:{ja:'REDの定番ルート',zh:'RED打卡路线'},
       banner:{logo:'RED',
         head:{ja:'推奨ルート：金閣寺 → 嵐山 → 清水寺',zh:'推荐行程：金阁寺 → 岚山 → 清水寺'},
-        note:{ja:'みんなが同じ定番をコピー。全員が同じルート・同じ時間に集中し、混雑が生まれる。',zh:'大家复制同样的打卡路线，挤在相同地点和时段，于是拥挤。'}},
-      mood:{ja:'😔 「京都は疲れた」',zh:'😔 「京都太累了」'},
-      spend:{ja:'消費 17万円／体験 5%未満',zh:'消费 1.7万元／体验 不足5%'},
+        note:{ja:'この情報設計をしているのはアルゴリズム。全員が同じルート・同じ時間に集中し、混雑が生まれる。',zh:'做这套信息设计的是算法。所有人挤在相同路线和时段，于是拥挤。'}},
+      mood:{ja:'😔 「人が多くて、とにかく疲れた」',zh:'😔 「人太多，只觉得累」'},
+      spend:{ja:'消費 17万円／体験系 5%',zh:'消费 17万日元／体验类 5%'},
       steps:[
         {time:'09:00',em:'📱',h:{ja:'「金閣寺・嵐山・清水寺」をコピペ',zh:'复制「金阁寺・岚山・清水寺」'},d:{ja:'REDの定番3スポット。見た目は綺麗だが全員同じ',zh:'RED三大打卡点。画面好看，但人人同路'},tag:{ja:'定番ルート',zh:'打卡路线'}},
-        {time:'10:00',em:'🚌',h:{ja:'市バス205系統で移動',zh:'乘205路市巴士'},d:{ja:'満員。撮っているのは人混みの頭ばかり',zh:'满员，拍到的全是人头'},tag:{ja:'満員',zh:'满员'}},
-        {time:'11:00',em:'⏳',h:{ja:'金閣寺で60分待ち',zh:'金阁寺等候60分钟'},d:{ja:'「こんなはずじゃなかった」',zh:'「没想到会这样」'},tag:{ja:'60分待ち',zh:'排队60分'}},
-        {time:'12:30',em:'📷',h:{ja:'嵐山・竹林、人混みで写真撮れず',zh:'岚山竹林，人潮汹涌拍不到'},d:{ja:'REDに「混んでた、残念」と投稿',zh:'在RED发帖「人太多，失望」'},tag:{ja:'激混み',zh:'极挤'}},
-        {time:'19:00',em:'🍽️',h:{ja:'錦市場付近で食べ歩き',zh:'锦市场附近随便吃'},d:{ja:'深夜まで混雑・価格高騰',zh:'深夜依旧拥挤・价格虚高'},tag:{ja:'割高',zh:'偏贵'}},
+        {time:'10:00',em:'🚌',h:{ja:'市バスで移動、平均42分待ち',zh:'乘市巴士，平均等候42分钟'},d:{ja:'満員。撮っているのは人混みの頭ばかり',zh:'满员，拍到的全是人头'},tag:{ja:'42分待ち',zh:'等候42分'}},
+        {time:'11:30',em:'⏳',h:{ja:'金閣寺、1日12,000人の人混み',zh:'金阁寺，单日12,000人的人潮'},d:{ja:'「こんなはずじゃなかった」',zh:'「没想到会这样」'},tag:{ja:'激混み',zh:'极挤'}},
+        {time:'14:00',em:'😮‍💨',h:{ja:'清水寺へ強行軍',zh:'向清水寺强行军'},d:{ja:'混雑で疲弊。「もう歩けない」',zh:'被拥挤耗尽体力。「走不动了」'},tag:{ja:'強行軍',zh:'强行军'}},
+        {time:'20:00',em:'📉',h:{ja:'REDに「混んでた、残念」と投稿',zh:'在RED发帖「人太多，失望」'},d:{ja:'消費17万円のうち体験系はわずか5%',zh:'17万日元消费中体验类仅5%'},tag:{ja:'体験5%',zh:'体验5%'}},
       ],
     },
     good:{
-      label:{ja:'ここさんの旅程',zh:'Kokosan行程'},
+      label:{ja:'京結びの旅程',zh:'京結び行程'},
       mood:{ja:'😍 「また来たい京都」',zh:'😍 「还想再来的京都」'},
-      spend:{ja:'消費 22万円／体験 35%',zh:'消费 2.2万元／体验 35%'},
+      spend:{ja:'消費 12〜22万円／体験系 5%→35%',zh:'消费 12〜22万日元／体验类 5%→35%'},
       steps:[
-        {time:'07:00',em:'🎋',h:{ja:'大覚寺 早朝の貸切＋竹林撮影',zh:'大觉寺 早晨包场＋竹林拍摄'},d:{ja:'拼団20名だけの特別開門。混雑ゼロ',zh:'仅限20名拼团者的特别开门。零拥挤'},tag:{ja:'混雑ゼロ',zh:'零拥挤'}},
-        {time:'09:00',em:'📸',h:{ja:'無人の竹林で30分撮影',zh:'无人竹林独享30分钟'},d:{ja:'とっておきの写真→SNSで友人に拡散',zh:'拍出大片→在社媒引发转发'},tag:{ja:'貸切',zh:'包场'}},
-        {time:'11:00',em:'👥',h:{ja:'友人3組に「一緒に行こう」',zh:'拉3组朋友「一起去」'},d:{ja:'次の拼団参加者が自動で集まる',zh:'下一批拼团者自动聚集'},tag:{ja:'口コミ拡散',zh:'口碑裂变'}},
-        {time:'12:30',em:'🍵',h:{ja:'伏見の老舗で ペア和食コース',zh:'伏见百年老店 双人怀石'},d:{ja:'事前予約・動線・移動までアプリが最適化',zh:'预约・动线・交通由App一键搞定'},tag:{ja:'予約済',zh:'已预约'}},
+        {time:'07:00',em:'🎋',h:{ja:'大覚寺 朝7時の貸切',zh:'大觉寺 早7点包场'},d:{ja:'拼団20名だけの特別開門。混雑ゼロ',zh:'仅限20名拼团者的特别开门。零拥挤'},tag:{ja:'混雑ゼロ',zh:'零拥挤'}},
+        {time:'09:00',em:'📸',h:{ja:'無人の境内・竹林で30分撮影',zh:'无人的院内・竹林独享30分钟'},d:{ja:'とっておきの写真→帰国後REDに再投稿',zh:'拍出大片→回国后在RED再发帖'},tag:{ja:'貸切',zh:'包场'}},
+        {time:'11:00',em:'👥',h:{ja:'WeChatで友人3組に「一緒に行こう」',zh:'在微信喊3组朋友「一起去」'},d:{ja:'次の拼団参加者が自動で集まる',zh:'下一批拼团者自动聚集'},tag:{ja:'口コミ拡散',zh:'口碑裂变'}},
+        {time:'12:30',em:'🍵',h:{ja:'南禅寺 水路閣で食体験',zh:'南禅寺 水路阁旁美食体验'},d:{ja:'事前予約・動線・移動までアプリが最適化',zh:'预约・动线・交通由App一键搞定'},tag:{ja:'予約済',zh:'已预约'}},
       ],
     },
   },
@@ -694,33 +797,32 @@ const ITINS = {
       label:{ja:'Ctripのパッケージツアー',zh:'携程标准套餐'},
       banner:{logo:'Ctrip',
         head:{ja:'おすすめ2日間：金閣寺・二条城・伏見稲荷',zh:'推荐2日游：金阁寺・二条城・伏见稻荷'},
-        note:{ja:'子供向け解説なしの定番パッケージ。全員が同じ2日間に集中する。',zh:'无儿童解说的标准套餐。所有人挤在同样的2天行程里。'}},
+        note:{ja:'子供向け設計なしの定番パッケージ。全員が同じ2日間に集中する。',zh:'无儿童设计的标准套餐。所有人挤在同样的2天行程里。'}},
       mood:{ja:'📉 消費は計画の60%で終了',zh:'📉 消费仅完成计划的60%'},
-      spend:{ja:'「子供が楽しめる体験を探せばよかった」',zh:'「早该找更适合孩子的体验」'},
+      spend:{ja:'「もっと子供が楽しめる体験を探せばよかった」',zh:'「早该找更适合孩子的体验」'},
       steps:[
-        {time:'Day1',em:'📱',h:{ja:'「京都2日間」金閣寺・二条城・伏見稲荷',zh:'「京都2日游」金阁寺・二条城・伏见稻荷'},d:{ja:'子供向けの解説はなし',zh:'无儿童专属解说'},tag:{ja:'パッケージ',zh:'套餐'}},
-        {time:'',em:'🚌',h:{ja:'バス・タクシーで移動、子連れで大変',zh:'公交・出租，带娃辛苦'},d:{ja:'ベビーカー不可。下の子が泣く',zh:'婴儿车上不了车，小孩大哭'},tag:{ja:'移動負担',zh:'移动负担'}},
-        {time:'',em:'😰',h:{ja:'伏見稲荷：炎天下に90分待ち',zh:'伏见稻荷：烈日下排队90分钟'},d:{ja:'子供が体調不良「もう帰りたい」',zh:'孩子身体不适「想回去」'},tag:{ja:'90分待ち',zh:'排队90分'}},
-        {time:'',em:'🍜',h:{ja:'観光地のラーメン店でやや割高',zh:'景点附近拉面店，偏贵'},d:{ja:'地元向けの食堂を知らない',zh:'不知道有本地平价食堂'},tag:{ja:'割高',zh:'偏贵'}},
-        {time:'',em:'🏨',h:{ja:'早々にホテルへ戻り子供は就寝',zh:'早早回酒店，孩子倒头就睡'},d:{ja:'疲弊して予定をキャンセル',zh:'疲惫取消后续行程'},tag:{ja:'計画60%',zh:'仅完成60%'}},
+        {time:'Day1',em:'📱',h:{ja:'「京都2日間」金閣寺・二条城・伏見稲荷',zh:'「京都2日游」金阁寺・二条城・伏见稻荷'},d:{ja:'子供向けの設計はなし',zh:'没有面向孩子的设计'},tag:{ja:'パッケージ',zh:'套餐'}},
+        {time:'',em:'🚌',h:{ja:'バス・タクシーで移動、子連れで大変',zh:'公交・出租，带娃辛苦'},d:{ja:'移動のたびに体力を消耗',zh:'每次移动都消耗体力'},tag:{ja:'移動負担',zh:'移动负担'}},
+        {time:'',em:'😰',h:{ja:'伏見稲荷：90分待ち',zh:'伏见稻荷：排队90分钟'},d:{ja:'子供が体調不良「もう帰りたい」',zh:'孩子身体不适「想回去」'},tag:{ja:'90分待ち',zh:'排队90分'}},
+        {time:'',em:'🏨',h:{ja:'早々にホテルへ戻り予定をキャンセル',zh:'早早回酒店，取消后续行程'},d:{ja:'消費は計画の60%で終了',zh:'消费仅完成计划的60%'},tag:{ja:'計画60%',zh:'仅完成60%'}},
       ],
     },
     good:{
-      label:{ja:'ここさんの家族旅程',zh:'Kokosan家庭行程'},
+      label:{ja:'京結びの家族旅程',zh:'京結び家庭行程'},
       mood:{ja:'⭐ 「最高の家族旅行」',zh:'⭐ 「最棒的家庭旅行」'},
-      spend:{ja:'消費 計画の130%／子供が主役',zh:'消费 计划的130%／孩子当主角'},
+      spend:{ja:'体験消費比率 約6%→約9%／子供の体験参加 5%→9%',zh:'体验消费比率 约6%→约9%／儿童体验参与 5%→9%'},
       steps:[
-        {time:'07:30',em:'🎌',h:{ja:'仁和寺・平野神社 早朝の貸切ツアー',zh:'仁和寺・平野神社 早晨包场'},d:{ja:'観光客の来る前の静寂。子供も走れる',zh:'游客到来前的宁静，孩子能尽情奔跑'},tag:{ja:'早朝貸切',zh:'早晨包场'}},
-        {time:'10:00',em:'🧪',h:{ja:'和紙を漉く 体験工房',zh:'亲手抄和纸 手工坊'},d:{ja:'「自分で作った！」12歳が大興奮',zh:'「我自己做的！」12岁孩子大兴奋'},tag:{ja:'年齢別設計',zh:'按年龄设计'}},
-        {time:'12:30',em:'🍱',h:{ja:'地元向け 仕出し弁当',zh:'面向本地家庭的特色便当'},d:{ja:'地元事業者と連携。家族5人で3,000円',zh:'与本地运营商合作，全家5人约200元'},tag:{ja:'地元価格',zh:'本地价'}},
-        {time:'17:00',em:'🏮',h:{ja:'伏見の提灯エリアを5家族で散策',zh:'与5家庭漫步伏见灯笼小巷'},d:{ja:'拼団仲間と。子供同士が友達に',zh:'与拼团伙伴同行，孩子成了朋友'},tag:{ja:'拼団仲間',zh:'拼团伙伴'}},
+        {time:'07:30',em:'🎌',h:{ja:'早朝貸切の境内',zh:'清晨包场的院内'},d:{ja:'観光客の来る前の静寂。子供も走れる',zh:'游客到来前的宁静，孩子能尽情奔跑'},tag:{ja:'早朝貸切',zh:'早晨包场'}},
+        {time:'10:00',em:'🛡️',h:{ja:'甲冑の着付け体験',zh:'甲胄穿着体验'},d:{ja:'年齢に合わせた体験設計。12歳が大興奮',zh:'按年龄设计的体验，12岁孩子大兴奋'},tag:{ja:'年齢別設計',zh:'按年龄设计'}},
+        {time:'13:30',em:'🧪',h:{ja:'和紙を漉く 手しごと工房',zh:'亲手抄和纸 手工坊'},d:{ja:'「自分で作った！」子供が主役',zh:'「我自己做的！」孩子当主角'},tag:{ja:'子供が主役',zh:'孩子当主角'}},
+        {time:'17:00',em:'🏮',h:{ja:'拼団仲間の家族と交流',zh:'与拼团伙伴家庭交流'},d:{ja:'早朝貸切の境内で家族どうしが友達に',zh:'包场院内，家庭之间成了朋友'},tag:{ja:'家族交流',zh:'家庭交流'}},
       ],
     },
   },
 };
 ITINS.solo = ITINS.couple; ITINS.friends = ITINS.couple;
 
-/* ===================== value chain (逆転) ===================== */
+/* ===================== value chain (逆転 / v48 S8) ===================== */
 const VC = {
   before:[
     {stage:{ja:'旅行計画',zh:'旅行计划'}, who:{ja:'RED・Ctripの定番',zh:'RED・携程的打卡路线'}, to:{ja:'全員が同じ場所へ → 混雑',zh:'所有人涌向同处 → 拥挤'}},
@@ -729,11 +831,66 @@ const VC = {
     {stage:{ja:'体験共有',zh:'体验分享'}, who:{ja:'定番の写真が拡散',zh:'打卡照不断扩散'}, to:{ja:'次もまた定番へ → 混雑',zh:'下一个还是打卡点 → 拥挤'}},
   ],
   after:[
-    {stage:{ja:'旅行計画',zh:'旅行计划'}, who:{ja:'ここさんが一人ひとりに穴場提案',zh:'Kokosan为每人推荐冷门'}, to:{ja:'行き先がばらける → 分散',zh:'目的地分散 → 分流'}},
-    {stage:{ja:'予約・拼団',zh:'预订・拼团'}, who:{ja:'KGo! 拼団で穴場に集まる',zh:'KGo!拼团聚向冷门'}, to:{ja:'時間も場所も分散',zh:'时间与地点都分散'}},
-    {stage:{ja:'体験設計・実施',zh:'体验设计・执行'}, who:{ja:'ここさんが穴場体験を実施',zh:'Kokosan实施冷门体验'}, to:{ja:'市内全域へ自然分散',zh:'自然散向全城'}},
-    {stage:{ja:'体験共有 → 再循環',zh:'体验分享 → 再循环'}, who:{ja:'穴場の魅力が口コミ拡散',zh:'冷门的魅力口碑扩散'}, to:{ja:'次の人も別の穴場へ → 分散',zh:'下一个也去别的冷门 → 分流'}},
+    {stage:{ja:'旅行計画',zh:'旅行计划'}, who:{ja:'京結びが体験コンテンツで川上介入',zh:'京結び以体验内容切入上游'}, to:{ja:'行き先がばらける → 分散',zh:'目的地分散 → 分流'}},
+    {stage:{ja:'予約・拼団',zh:'预订・拼团'}, who:{ja:'逆DPで人が集まるほど安く',zh:'逆向定价，人越多越便宜'}, to:{ja:'時間も場所も分散',zh:'时间与地点都分散'}},
+    {stage:{ja:'穴場体験の実施',zh:'冷门体验的实施'}, who:{ja:'京結びが穴場体験を実施',zh:'京結び实施冷门体验'}, to:{ja:'市内全域へ自然分散',zh:'自然散向全城'}},
+    {stage:{ja:'体験共有 → 再循環',zh:'体验分享 → 再循环'}, who:{ja:'「また来たい」投稿が次の旅行者を誘導',zh:'「还想再来」的帖子引导下一批旅行者'}, to:{ja:'次の人も別の穴場へ → 分散',zh:'下一个也去别的冷门 → 分流'}},
   ],
+};
+
+/* ===================== business blocks (v48 S11-S14, S16, S21) ===================== */
+const BIZ = {
+  pay:[
+    {ic:'🧳', t:{ja:'旅行者：旅行単位 500円',zh:'旅行者：每次旅行 500日元'},
+     d:{ja:'1旅行あたり500円で体験予約・旅程設計機能を提供。ネットワーク効果の起点を作る',zh:'每次旅行500日元，提供体验预订・行程设计功能，构筑网络效应的起点'}},
+    {ic:'🏯', t:{ja:'事業者：成果報酬型手数料',zh:'商家：成果报酬型佣金'},
+     d:{ja:'広告費ゼロで集客できた予約が完結したときだけ、予約完結額×10%。事業者側のリスクがなく参加障壁を最小化',zh:'仅当零广告费获客的预订完成时收取预订额×10%。商家零风险，参与门槛最小化'}},
+    {ic:'♻️', t:{ja:'原資プール：逆DPの割引原資',zh:'资金池：逆向定价的折扣资金'},
+     d:{ja:'手数料の一部をプールし、割引原資に充当。「人が集まるほど安くなる」逆DPを自走させる',zh:'佣金的一部分进入资金池充当折扣资金，让「人越多越便宜」的逆向定价自行运转'}},
+  ],
+  cycle:{ja:'旅行者が払う → 事業者が払う → 逆DPが回る → 旅行者がもっと集まる',
+         zh:'旅行者付费 → 商家付费 → 逆向定价运转 → 更多旅行者聚集'},
+  scen:[
+    {cls:'', name:{ja:'S1 楽観シナリオ',zh:'S1 乐观情景'}, verdict:{ja:'✅ 事業成立',zh:'✅ 事业成立'}, vc:'var(--green)',
+     pre:{ja:'中国人訪日: 2024年水準／事業者100社・体験単価5万円・手数料10%',zh:'中国访日: 2024年水平／商家100家・体验单价5万日元・佣金10%'},
+     sales:{ja:'2.4億円',zh:'2.4亿日元'}, margin:'40%', users:{ja:'3万人／月',zh:'3万人／月'}, biz:{ja:'100社（累計）',zh:'100家（累计）'}},
+    {cls:'s2', name:{ja:'S2 中立シナリオ',zh:'S2 中性情景'}, verdict:{ja:'✅ 事業成立',zh:'✅ 事业成立'}, vc:'var(--amber)',
+     pre:{ja:'中国人訪日: 半減、韓国・台湾で補完／事業者60社・体験単価4万円・手数料10%',zh:'中国访日: 减半，由韩国・台湾补足／商家60家・体验单价4万日元・佣金10%'},
+     sales:{ja:'1.07億円',zh:'1.07亿日元'}, margin:'35%', users:{ja:'1.5万人／月',zh:'1.5万人／月'}, biz:{ja:'60社（累計）',zh:'60家（累计）'}},
+    {cls:'s3', name:{ja:'S3 悲観シナリオ',zh:'S3 悲观情景'}, verdict:{ja:'⚠️ 最低限成立',zh:'⚠️ 勉强成立'}, vc:'var(--red)',
+     pre:{ja:'中国人訪日: 規制時水準／事業者30社・体験単価3万円・手数料10%',zh:'中国访日: 管制期水平／商家30家・体验单价3万日元・佣金10%'},
+     sales:{ja:'3,324万円',zh:'3,324万日元'}, margin:'20%', users:{ja:'5,000人／月',zh:'5,000人／月'}, biz:{ja:'30社（累計）',zh:'30家（累计）'}},
+  ],
+  scenLabels:{sales:{ja:'想定売上',zh:'预期营收'}, margin:{ja:'営業利益率',zh:'营业利润率'}, users:{ja:'旅行者',zh:'旅行者'}, biz:{ja:'事業者',zh:'商家'}},
+  road:[
+    {n:'Phase 1', term:{ja:'0〜12ヶ月',zh:'0〜12个月'}, name:{ja:'無料・認知形成',zh:'免费・建立认知'}, rev:{ja:'収益ゼロ',zh:'零收益'},
+     d:{ja:'インフルエンサーに希少体験を無償提供し、REDで認知を獲得。口コミ投稿が燃え広がる。KPI: REDフォロワー5,000人・体験提供100件・提携寺社5箇所',zh:'向达人免费提供稀缺体验，在RED获得认知，口碑帖扩散。KPI: RED粉丝5,000人・体验100次・签约寺社5处'}},
+    {n:'Phase 2', term:{ja:'12〜24ヶ月',zh:'12〜24个月'}, name:{ja:'事業者課金開始',zh:'商家收费启动'}, rev:{ja:'手数料（事業者のみ）',zh:'佣金（仅商家）'},
+     d:{ja:'旅行者は無料継続。「REDで発見→京結びで予約」の動線が完成。KPI: 月間予約300件・提携事業者30社',zh:'旅行者继续免费。「RED发现→京結び预订」动线完成。KPI: 月预订300单・签约商家30家'}},
+    {n:'Phase 3', term:{ja:'24ヶ月〜',zh:'24个月〜'}, name:{ja:'両面課金・成長',zh:'双边收费・增长'}, rev:{ja:'500円＋手数料',zh:'500日元＋佣金'},
+     d:{ja:'旅行単位500円＋事業者手数料の2本柱。独自の口コミ資産を保有しREDと並立、訪日行動データは京結びに蓄積。KPI: 月間旅行者3万人・事業者100社・年間売上2.4億円（楽観）',zh:'每次旅行500日元＋商家佣金双支柱。拥有独立口碑资产与RED并立，访日行为数据积累于京結び。KPI: 月旅行者3万人・商家100家・年营收2.4亿日元（乐观）'}},
+  ],
+  cmp:{
+    head:{f:{ja:'機能',zh:'功能'}, ex:{ja:'既存',zh:'现有'}, ky:{ja:'京結び',zh:'京結び'}},
+    rows:[
+      {f:{ja:'川上への能動的介入',zh:'主动介入上游'}, ex:'△', ky:'✓'},
+      {f:{ja:'グループ購入（逆DP）',zh:'团购（逆向定价）'}, ex:'×', ky:'✓'},
+      {f:{ja:'穴場誘導・分散',zh:'冷门引导・分流'}, ex:'△', ky:'✓'},
+      {f:{ja:'体験設計（ペルソナ別）',zh:'体验设计（按人群）'}, ex:'△', ky:'✓'},
+      {f:{ja:'行動データ日本側蓄積',zh:'行为数据积累于日本'}, ex:'×', ky:'✓'},
+      {f:{ja:'行動変容の実現',zh:'实现行为改变'}, ex:'×', ky:'✓'},
+    ],
+  },
+  fin:{
+    h:{ja:'混雑を、価値創造の入口に変える。',zh:'让拥挤，成为价值创造的入口。'},
+    s:{ja:'<b>来た後に処理</b>（行政コスト）→ <b>来る前に誘導</b>（事業機会）。川上奪取＝旅行前の意思決定を動かし、分散をビジネスにする。',
+       zh:'<b>来了之后处理</b>（行政成本）→ <b>到来之前引导</b>（商业机会）。夺取上游＝撬动旅行前的决策，把分流变成生意。'},
+    items:[
+      {n:'01', t:{ja:'旅行者が集客する',zh:'旅行者带来客流'}},
+      {n:'02', t:{ja:'日本側がデータを持つ',zh:'数据掌握在日本一侧'}},
+      {n:'03', t:{ja:'混雑を収益化する',zh:'把拥挤变成收益'}},
+    ],
+  },
 };
 
 /* ===================== 拼团 logic ===================== */
@@ -907,8 +1064,8 @@ function renderItin(){
   const cap=document.getElementById('itincap');
   cap.innerHTML = good
     ? (lang==='ja'
-        ? 'ここさんが<b>旅程設計の川上</b>に割り込み、REDの定番ルートを置き換える。混雑の原因そのものが消える。'
-        : 'Kokosan切入<b>行程规划的上游</b>，替换RED的固定路线。拥挤的成因被直接消除。')
+        ? '京結びが<b>旅程設計の川上</b>に介入し、REDの定番ルートを置き換える。混雑の原因そのものが消える。'
+        : '京結び切入<b>行程规划的上游</b>，替换RED的固定路线。拥挤的成因被直接消除。')
     : (lang==='ja'
         ? 'みんなが同じ定番ルートをなぞる限り、規制も値上げも<b>「来た後」</b>の対処。混雑は固定されたまま。'
         : '只要大家都照着同样的打卡路线走，管控与提价都只是<b>「来了之后」</b>的应对。拥挤依旧被锁死。');
@@ -1006,6 +1163,55 @@ function renderKpis(){
   document.getElementById('kpiCase').textContent = t(PERSONAS[persona].case);
 }
 
+/* ===================== business blocks (逆転 / v48) ===================== */
+function renderBiz(){
+  // 収益モデル
+  const bp=document.getElementById('bizPay'); bp.innerHTML='';
+  BIZ.pay.forEach(r=>{
+    bp.insertAdjacentHTML('beforeend',
+      `<div class="bizrow"><div class="ic">${r.ic}</div>
+        <div class="bt"><b>${r.t[lang]}</b><span>${r.d[lang]}</span></div></div>`);
+  });
+  document.getElementById('bizCycle').textContent = BIZ.cycle[lang];
+  // 財務3シナリオ
+  const sl=document.getElementById('scenList'); sl.innerHTML='';
+  const L=BIZ.scenLabels;
+  BIZ.scen.forEach(s=>{
+    sl.insertAdjacentHTML('beforeend',
+      `<div class="scen ${s.cls}">
+        <div class="sh"><b>${s.name[lang]}</b><span class="vd" style="color:${s.vc}">${s.verdict[lang]}</span></div>
+        <div class="pre">${s.pre[lang]}</div>
+        <div class="sg">
+          <div class="si"><small>${L.sales[lang]}</small><b>${s.sales[lang]}</b></div>
+          <div class="si"><small>${L.margin[lang]}</small><b>${s.margin}</b></div>
+          <div class="si"><small>${L.users[lang]}</small><b style="font-size:12.5px">${s.users[lang]}</b></div>
+          <div class="si"><small>${L.biz[lang]}</small><b style="font-size:12.5px">${s.biz[lang]}</b></div>
+        </div>
+      </div>`);
+  });
+  // ロードマップ
+  const rl=document.getElementById('roadList'); rl.innerHTML='';
+  BIZ.road.forEach(p=>{
+    rl.insertAdjacentHTML('beforeend',
+      `<div class="phaserow"><div class="pn">${p.n}<br>${p.term[lang]}</div>
+        <div class="pm"><b>${p.name[lang]}</b><span class="rev">${p.rev[lang]}</span><span>${p.d[lang]}</span></div></div>`);
+  });
+  // 競合比較
+  const cm=document.getElementById('cmpTable'); cm.innerHTML='';
+  const H=BIZ.cmp.head;
+  cm.insertAdjacentHTML('beforeend',
+    `<div class="cr head"><div>${H.f[lang]}</div><div class="fx">${H.ex[lang]}</div><div class="fx" style="color:var(--kyoto)">${H.ky[lang]}</div></div>`);
+  BIZ.cmp.rows.forEach(r=>{
+    const exCls = r.ex==='×'?'no':'tri';
+    cm.insertAdjacentHTML('beforeend',
+      `<div class="cr"><div>${r.f[lang]}</div><div class="fx ${exCls}">${r.ex}</div><div class="fx yes">${r.ky}</div></div>`);
+  });
+  // FINAL
+  const fb=document.getElementById('finBlk');
+  fb.innerHTML=`<h3>${BIZ.fin.h[lang]}</h3><div class="fs">${BIZ.fin.s[lang]}</div>
+    <div class="f3">${BIZ.fin.items.map(i=>`<div class="fi"><b>${i.n}</b><span>${i.t[lang]}</span></div>`).join('')}</div>`;
+}
+
 /* ===================== persona sheet ===================== */
 function renderOpts(){
   const wrap=document.getElementById('opts'); wrap.innerHTML='';
@@ -1039,7 +1245,9 @@ function applyI18n(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{
     const k=el.getAttribute('data-i18n'); const v=I18N[lang][k];
     if(v!==undefined && typeof v==='string'){
-      if(el.hasAttribute('data-i18n-html')) el.innerHTML=v; else el.textContent=v;
+      if(el.hasAttribute('data-i18n-html')) el.innerHTML=v;
+      else if(v.includes('\n')) el.innerHTML=v.replace(/\n/g,'<br>');
+      else el.textContent=v;
     }
   });
   document.documentElement.lang=lang;
@@ -1048,7 +1256,7 @@ function setLang(l){
   lang=l;
   document.getElementById('jp').classList.toggle('on',l==='ja');
   document.getElementById('zh').classList.toggle('on',l==='zh');
-  applyI18n(); applyPersona(); renderPin(); renderMap(); renderChains();
+  applyI18n(); applyPersona(); renderPin(); renderMap(); renderChains(); renderBiz();
   document.getElementById('mapcap').innerHTML = mapMode==='before'? t('map_cap_b'):t('map_cap_a');
 }
 
@@ -1060,6 +1268,7 @@ renderMap();
 renderItin();
 renderChains();
 renderKpis();
+renderBiz();
 </script>
 </body>
 </html>
